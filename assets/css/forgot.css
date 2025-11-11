@@ -1,0 +1,7 @@
+/* 🟦 forgot Page Styles🟦 */
+.py-5 {
+  background: linear-gradient(135deg, #ffffff, #009bfb);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}

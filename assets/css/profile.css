@@ -1,0 +1,7 @@
+/* 🟦 profile Page Styles🟦 */
+.py-5 {
+  background: linear-gradient( #00fbff 100%);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}

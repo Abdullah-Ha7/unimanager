@@ -1,0 +1,201 @@
+
+
+/* 🟦 Home Page Styles🟦 */
+.hero-section {
+  background: linear-gradient(135deg, #004aad 0%, #007bff 100%);
+  min-height: 90vh;
+}
+
+/* 🟦 events Page Styles🟦 */
+
+/* 🔷 قسم الأحداث */
+.events-section {
+  background-color: #f8f9fb;
+  min-height: 90vh;
+  padding: 5rem 0;
+}
+
+/* 🔍 بطاقة البحث */
+.search-card {
+  border-radius: 12px;
+}
+
+/* 🔘 زر البحث */
+.search-btn {
+  background: linear-gradient(90deg, #5b46df, #3887f3);
+  border: none;
+}
+
+/* 🪪 بطاقات الأحداث */
+.event-card {
+  border-radius: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* 🟦 Login Page Styles 🟦*/
+.login-section {
+  background: linear-gradient(135deg, #0d79ac, #0d79ac);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 0;
+}
+
+/* البطاقة الخاصة بتسجيل الدخول */
+.login-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+/* الزر */
+.login-btn {
+  background: linear-gradient(90deg, #4192d3, #52b2ed);
+  border: none;
+  transition: 0.2s ease;
+}
+
+.login-btn:hover {
+  opacity: 0.9;
+}
+
+/* النصوص والروابط */
+.login-section a {
+  color: #f10101;
+}
+
+.login-section a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* 🟦 register Page Styles🟦 */
+.register-section {
+  background: linear-gradient(135deg, #0066ff, #6a11cb);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.success-box {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4CAF50, #2E7D32);
+  color: white;
+}
+
+
+
+
+/* 🟦 forgot Page Styles🟦 */
+.py-5 {
+  background: linear-gradient(135deg, #0066ff, #6a11cb);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+/* 🟦 profile Page Styles🟦 */
+.py-5 {
+  background: linear-gradient(135deg, #004aad 0%, #007bff 100%);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+
+
+/* 🟦 My Bookings Page Styles🟦 */
+.min-vh-90 {
+  min-height: 90vh;
+}
+
+.custom-card {
+  border-radius: 12px;
+}
+
+.event-img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.placeholder-img {
+  height: 200px;
+  background: #d9d9d9;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+
+/* 🟦 reset_Password Page Styles🟦 */
+.reset-section {
+  background: linear-gradient(135deg, #0066ff, #6a11cb);
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+.requirement-list li {
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.valid {
+  color: green;
+}
+
+.invalid {
+  color: red;
+}
+
+
+
+
+/* 🟦 reviews Page Styles🟦 */
+
+.star-rating {
+            display: flex;
+            /* هذا يضمن أن النجوم تظهر بالترتيب الصحيح (1 ثم 5) بصرف النظر عن اتجاه اللغة */
+            flex-direction: row-reverse; 
+            justify-content: center;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            font-size: 2.5rem;
+            color: #5500de;
+            cursor: pointer;
+            padding: 0 5px;
+            transition: color 0.2s;
+        }
+        
+        /* القاعدة الذهبية: تلوين النجمة المحددة وكل النجوم التي تليها (والتي تمثل النجوم ذات القيمة الأقل في HTML المعكوس) */
+        .star-rating input:checked ~ label {
+            color: gold;
+        }
+
+        /* القاعدة الأقوى: عند التحويم على أي نجمة في الحاوية، نقوم بإلغاء لون النجوم أولاً (إعادة تلوينها بالرمادي) */
+        .star-rating:hover label {
+            color: #2ad205;
+        }
+        
+        /* ثم نقوم بتلوين النجمة التي يتم التحويم عليها والنجمة التي تليها (النجوم ذات القيمة الأقل) باللون الذهبي */
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: rgba(0, 0, 0, 0.979);
+        }
+
+
+
