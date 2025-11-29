@@ -64,9 +64,22 @@ CREATE TABLE reviews (
   user_id INT NOT NULL,
   rating TINYINT NOT NULL,
   comment TEXT,
+  reply_text TEXT NULL,
+  reply_at TIMESTAMP NULL DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (event_id) REFERENCES events(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Review replies (organizer responses to reviews)
+CREATE TABLE IF NOT EXISTS review_replies (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  review_id INT NOT NULL,
+  organizer_id INT NOT NULL,
+  reply_text TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (review_id) REFERENCES reviews(id),
+  FOREIGN KEY (organizer_id) REFERENCES users(id)
 );
 
 -- Password resets (store tokens)

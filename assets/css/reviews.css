@@ -1,0 +1,119 @@
+/* =========================================================
+   صفحة تقييم الفعالية (reviews.php)
+   يحتوي هذا الملف على جميع الأنماط الخاصة بصفحة التقييم فقط
+   ملاحظات باللغة العربية لتسهيل الفهم والتعديل
+========================================================= */
+
+/* خلفية الصفحة */
+body { background: #017eb3; }
+
+/*
+  البطاقة الرئيسية لتقييم الفعالية
+  - حواف دائرية وظل خفيف لتمييزها عن الخلفية
+*/
+.card.rounded-4 { border: 0; box-shadow: 0 10px 24px rgba(189, 13, 13, 0.12); }
+
+/*
+  ترويسة البطاقة (عنوان: Review Event)
+  - استخدام نفس تدرج الأصفر المستخدم في الأزرار للتحكم في هوية الصفحة
+*/
+.card.rounded-4 > .card-header.bg-warning {
+  background: linear-gradient(90deg,#017eb3,#017eb3) !important;
+  color:#ffffff !important; /* نص داكن لقراءة أفضل على الأصفر */
+  font-weight:700;
+}
+.card.rounded-4 > .card-header h1.h3 { font-weight:700; }
+
+/*
+  عنوان نموذج التقييم (Your Rating)
+  - إعطاء لون مميز مشابه للثيم التركوازي المستخدم في الموقع
+*/
+.card-body label.form-label.h5 { color:#0aa2c0; font-weight:600; }
+
+/*
+  منطقة النجوم (التقييم من 1 إلى 5)
+  - اتجاه معكوس لسهولة التعامل وجعل النجوم من اليمين لليسار عند الحاجة
+  - تغيير الألوان عند التحويم والاختيار
+*/
+.star-rating { display:flex; flex-direction:row-reverse; justify-content:center; }
+.star-rating input { display:none; }
+.star-rating label {
+  font-size:2.5rem;
+  color:#d5d5d5;
+  cursor:pointer;
+  padding:0 5px;
+  transition:color .25s ease, transform .25s ease;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));
+}
+/* النجوم المختارة: ذهبي مع تدرج خفيف */
+.star-rating input:checked ~ label { color:rgb(243, 220, 8); }
+/* إعادة لون الأساس عند التحويم العام */
+.star-rating:hover label { color:#d5d5d5; }
+/* النجمة التي فوق المؤشر ومن بعدها (لليمين) تتحول ذهبية */
+.star-rating label:hover,
+.star-rating label:hover ~ label { color:rgb(243, 220, 8); transform:translateY(-2px); }
+
+/*
+  مربع التعليق
+  - تحسين الحدود والتركيز
+*/
+textarea#comment { border:2px solid #e3e6e8; border-radius:12px; resize:vertical; }
+textarea#comment:focus { border-color:#0aa2c0; box-shadow:0 0 0 0.2rem rgba(10,162,192,.25); }
+
+/*
+  زر إرسال التقييم (Send / Submit Review)
+  - استخدام تدرج أصفر مطابق للترويسة مع تأثيرات تفاعل
+*/
+/* زر الإرسال (Send) بعد التعديل: عرض 50% ونص أبيض */
+button.btn.btn-warning.w-100 {
+  background:linear-gradient(#469e43);
+  color:#ffffff;
+  border:none;
+  font-weight:600;
+  box-shadow:0 6px 16px rgba(1,126,179,.35);
+  transition:filter .25s ease, transform .25s ease;
+  border-radius:14px;
+  padding:.7rem 1rem;
+  width:50%;
+  margin:0 auto; /* توسيط الزر داخل النموذج */
+  display:flex; align-items:center; justify-content:center;
+}
+button.btn.btn-warning.w-100:hover { filter:brightness(1.08); transform:translateY(-2px); }
+button.btn.btn-warning.w-100:active { filter:brightness(.92); transform:translateY(0); }
+/* أيقونة الإرسال داخل الزر */
+button.btn.btn-warning.w-100 .bi { margin-inline-end:8px; color:#fff; }
+
+/*
+  رابط العودة إلى لوحة الطالب (Back to Dashboard)
+  - تحويله إلى شكل زر رابط واضح مع تحويم بسيط
+*/
+/* زر العودة إلى لوحة التحكم بلون #017eb3 ونص أبيض */
+.card-body a.text-decoration-none {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-top:16px;
+  font-weight:600;
+  background:#017eb3;
+  color:#ffffff !important;
+  padding:.55rem 1rem;
+  border-radius:12px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(1,126,179,.35);
+  transition:background .2s ease, transform .2s ease;
+}
+.card-body a.text-decoration-none:hover { background:#026997; transform:translateY(-2px); }
+.card-body a.text-decoration-none:active { background:#015d86; transform:translateY(0); }
+.card-body a.text-decoration-none .bi { font-size:1.05rem; color:#ffffff; }
+
+/*
+  تنسيق رسائل الخطأ/النجاح (إن وجدت)
+*/
+.alert { border-radius:12px; }
+.alert-danger { background:linear-gradient(90deg,#dc3545,#c82333); color:#fff; border:none; }
+.alert-success { background:linear-gradient(90deg,#28a745,#198754); color:#fff; border:none; }
+
+/* استجابة للشاشات الأصغر: تصغير حجم النجوم قليلاً */
+@media (max-width: 575.98px){
+  .star-rating label { font-size:2rem; }
+}

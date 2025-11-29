@@ -15,44 +15,20 @@ $roles = [
     3 => ($lang == 'ar') ? 'طالب/مسجل (Student)' : 'Student'
 ];
 
-// ✅ التحقق من صلاحية المسؤول (role_id = 1)
+// ✅ التحقق من صلاحية المسؤول (role_id = 1) بدون استخدام header() بعد بدء الإخراج
 if (!$user || $user['role_id'] != 1) {
-    $_SESSION['error_message'] = ($lang == 'ar') 
+    $msg = ($lang == 'ar') 
         ? 'غير مصرح لك بالوصول إلى إدارة المستخدمين.' 
         : 'You are not authorized to access user management.';
-    header("Location: " . BASE_URL . "/?page=login");
-    exit;
+    echo '<section class="py-5"><div class="container">'
+       . '<div class="alert alert-danger text-center">' . e($msg) . '</div>'
+       . '<div class="text-center"><a class="btn btn-primary" href="' . BASE_URL . '/?page=login">'
+       . (($lang=='ar') ? 'تسجيل الدخول' : 'Go to Login')
+       . '</a></div></div></section>';
+    return; // أوقف العرض هنا لتجنب المزيد من الإخراج
 }
 
-// ----------------------------------------
-// 1. معالجة طلب تحديث الدور (POST Request)
-// ----------------------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_role'])) {
-    $target_user_id = intval($_POST['user_id']);
-    $new_role_id = intval($_POST['new_role']);
-
-    // فحص أمني: منع المسؤول من تغيير دوره
-    if ($target_user_id === $user['id']) {
-        $_SESSION['error_message'] = ($lang == 'ar') ? 'لا يمكنك تغيير دورك الخاص.' : 'You cannot change your own role.';
-    } 
-    // فحص صلاحية الدور المحدد
-    elseif (!in_array($new_role_id, array_keys($roles))) {
-        $_SESSION['error_message'] = ($lang == 'ar') ? 'دور غير صالح.' : 'Invalid role selected.';
-    } 
-    // تنفيذ التحديث
-    else {
-        try {
-            $stmt = $pdo->prepare("UPDATE users SET role_id = ? WHERE id = ?");
-            $stmt->execute([$new_role_id, $target_user_id]);
-            $_SESSION['success_message'] = ($lang == 'ar') ? 'تم تحديث دور المستخدم بنجاح.' : 'User role updated successfully.';
-        } catch (PDOException $e) {
-            $_SESSION['error_message'] = ($lang == 'ar') ? 'خطأ في قاعدة البيانات: ' . $e->getMessage() : 'Database error: ' . $e->getMessage();
-        }
-    }
-    // إعادة توجيه لتنظيف بيانات POST
-    header("Location: " . BASE_URL . "/?page=manage_users");
-    exit;
-}
+// ملاحظة: معالجة POST لنقل/تحديث الأدوار أصبحت ضمن صفحة إجراء مبكر admin_manage_users_action
 
 // ----------------------------------------
 // 2. جلب جميع المستخدمين
@@ -98,6 +74,7 @@ try {
                         <th><?php echo ($lang == 'ar') ? 'البريد الإلكتروني' : 'Email'; ?></th>
                         <th><?php echo ($lang == 'ar') ? 'الدور الحالي' : 'Current Role'; ?></th>
                         <th style="min-width: 250px;"><?php echo ($lang == 'ar') ? 'تغيير الدور' : 'Change Role'; ?></th>
+                        <th><?php echo ($lang == 'ar') ? 'الإجراء' : 'Action'; ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,7 +102,7 @@ try {
                             <?php if ($u['id'] == $user['id']): ?>
                                 <span class="text-muted small"><?php echo ($lang == 'ar') ? 'لا يمكن التعديل (أنت)' : 'Cannot edit (You)'; ?></span>
                             <?php else: ?>
-                                <form method="POST" class="d-flex align-items-center">
+                                <form method="POST" action="<?php echo BASE_URL; ?>/?page=admin_manage_users_action" class="d-flex align-items-center">
                                     <input type="hidden" name="user_id" value="<?php echo $u['id']; ?>">
                                     <input type="hidden" name="update_role" value="1">
                                     
@@ -144,6 +121,20 @@ try {
                                 </form>
                             <?php endif; ?>
                         </td>
+                                                <td>
+                                                        <?php if ($u['role_id'] != 1): // allow delete for organizer/student only ?>
+                                                                <button type="button" 
+                                                                                class="btn btn-sm btn-outline-danger delete-user-btn" 
+                                                                                data-bs-toggle="modal" 
+                                                                                data-bs-target="#deleteUserModal"
+                                                                                data-user-id="<?php echo $u['id']; ?>"
+                                                                                data-user-name="<?php echo e($u['name']); ?>">
+                                                                        <i class="bi bi-trash"></i> <?php echo ($lang=='ar') ? 'حذف' : 'Delete'; ?>
+                                                                </button>
+                                                        <?php else: ?>
+                                                                <span class="text-muted small"><?php echo ($lang=='ar') ? 'محمي' : 'Protected'; ?></span>
+                                                        <?php endif; ?>
+                                                </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -151,3 +142,46 @@ try {
         </div>
     </div>
 </section>
+
+<!-- Delete User Modal -->
+<div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteUserModalLabel"><?php echo ($lang=='ar') ? 'تأكيد حذف المستخدم' : 'Confirm User Deletion'; ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0" id="deleteUserMessage">
+                    <?php echo ($lang=='ar') ? 'هل أنت متأكد من حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.' : 'Are you sure you want to delete this user? This action cannot be undone.'; ?>
+                </p>
+                <p class="fw-bold mt-2" id="deleteUserName"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo ($lang=='ar') ? 'إلغاء' : 'Cancel'; ?></button>
+                <form method="POST" action="<?php echo BASE_URL; ?>/?page=admin_manage_users_action" class="d-inline" id="deleteUserForm">
+                    <input type="hidden" name="user_id" id="deleteUserId">
+                    <input type="hidden" name="delete_user" value="1">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> <?php echo ($lang=='ar') ? 'نعم، حذف' : 'Yes, Delete'; ?>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var modal = document.getElementById('deleteUserModal');
+    if(!modal) return;
+    modal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        if(!button) return;
+        var userId = button.getAttribute('data-user-id');
+        var userName = button.getAttribute('data-user-name');
+        document.getElementById('deleteUserId').value = userId;
+        document.getElementById('deleteUserName').innerText = userName;
+    });
+});
+</script>

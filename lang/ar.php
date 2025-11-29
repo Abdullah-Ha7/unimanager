@@ -46,6 +46,17 @@ return [
     'status' => 'الحالة',
     '✅ Event created successfully!' => 'تم إنشاء الفعالية بنجاح  ✅',
     '⚠️ All fields are required.' => 'جميع الحقول مطلوبة ⚠️',
+    'review_submitted_successfully' => 'تم إرسال المراجعة بنجاح',
+
+
+    'event_image' => 'اختر صورة',
+    'event_capacity' => 'سعة الفعالية',  
+    'start_date' => 'تاريخ وقت البداية',
+    'end_date' => 'تاريخ وقت النهاية',
+    'save_event' => 'حفظ الفعالية',
+    'optional' => 'اختياري',
+    'use_zero_for_unlimited' => 'استخدم صفر للسعة غير المحدودة',
+
 
 
 
@@ -66,8 +77,10 @@ return [
     'write_reply' => 'اكتب ردك هنا...',
     'send_reply' => 'إرسال الرد',
     'Full' => 'مكتمل',
-
-    
+    'review_submitted_success' => 'تم إرسال المراجعة بنجاح',
+    'review_submission_failed' => 'فشل في إرسال المراجعة',
+    'reply_submitted_success' => 'تم إرسال الرد بنجاح',
+    'reply_submission_failed' => 'فشل في إرسال الرد',
     
 
 
@@ -105,6 +118,9 @@ return [
     'category' => '   التصنيف     ',
     'capacity' => '   عدد الحضور     ',
     'end_time' => '   تاريخ النهاية      ',
+    'start_time' => '   تاريخ البداية      ',
+    'location' => '   الموقع      ',
+    'remaining' => '   المقاعد المتبقية      ',
     'based_on' => '     بناءً على    ',
     'Hello ' => '     مرحبا    ',
     'confirm_delete_event'    =>   '  تأكيد الحذف الفعالية     ',
@@ -119,8 +135,11 @@ return [
     'search_for_events' => 'بحث عن فعالية ',
     'all_categories' => 'كل التصنيفات',
     'search' => 'بحث',
-
-
+    'create_new_event' => 'إنشاء فعالية جديدة',
+    'event_created_success' => 'تم إنشاء الفعالية بنجاح',
+    '✅ Event created successfully! Waiting for admin approval.' => 'تم إنشاء الفعالية بنجاح! في انتظار موافقة المسؤول.',
+    'already_reviewed_event' => 'لقد قمت بالفعل بتقييم هذه الفعالية',
+    
 
 
 
@@ -237,15 +256,10 @@ return [
     'settings_update_failed' => 'فشل في تحديث الإعدادات',
     'not_available' => 'غير متوفر',
 
-
-
-
-
-
-
-
-
     'Approved' => 'موافقة',
+    'Pending'  => 'قيد الانتظار',
+    'Rejected' => 'مرفوض',
+    'N/A'      => 'غير متوفر',
 
     
 

@@ -11,8 +11,7 @@ $settings = get_system_settings();
 $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
 ?>
 
-<!-- ✅ ربط ملفات CSS -->
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- CSS already loaded globally via header.php -->
 
 <section class="login-section">
   <div class="container">
@@ -45,9 +44,9 @@ $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
             <form method="POST" action="?page=login_action">
               <div class="mb-3">
                 <label class="form-label">
-                  <?php echo ($_SESSION['lang'] == 'ar') ? 'البريد الإلكتروني' : 'Email Address'; ?>
+                  <?php echo ($_SESSION['lang'] == 'ar') ? 'البريد الإلكتروني أو الرقم الجامعي' : 'Email or University ID'; ?>
                 </label>
-                <input type="email" name="email" class="form-control" required placeholder="name@example.com">
+                <input type="text" name="email" class="form-control" required >
               </div>
 
               <div class="mb-3">

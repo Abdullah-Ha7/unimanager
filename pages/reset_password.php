@@ -52,15 +52,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!-- ✅ ربط ملفات CSS -->
-<link rel="stylesheet" href="assets/css/reset_password.css">
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/reset_password.css">
 
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['lang'] ?? 'en'; ?>">
 <head>
   <meta charset="UTF-8">
   <title><?php echo ($_SESSION['lang'] == 'ar') ? 'إعادة تعيين كلمة المرور' : 'Reset Password'; ?></title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Bootstrap and Icons are loaded globally via header.php -->
   <link href="<?php echo BASE_URL; ?>/assets/css/style.css" rel="stylesheet">
 </head>
 <body>

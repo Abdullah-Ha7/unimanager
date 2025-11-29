@@ -52,7 +52,7 @@ $email_sent = sendResetPassword(
     $language          // 4. اللغة (الوسيط $language)
 );
     if ($email_sent) {
-         $_SESSION['success_message'] = $_SESSION['lang'] == 'ar' ? '  لقد تم  ارسال البريد الإلكتروني 📧 ' : ' 📧 Password reset link has been sent to your email.';
+         $_SESSION['success_message'] = $_SESSION['lang'] == 'ar' ? '  لقد تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني 📧 ' : ' 📧 Password reset link has been sent to your email.';
             header("Location: ?page=forgot");
             exit;
 

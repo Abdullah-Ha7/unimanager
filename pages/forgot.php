@@ -5,7 +5,7 @@ require_once __DIR__ . '/../functions.php';
 
 
 <!-- ✅ ربط ملفات CSS -->
-<link rel="stylesheet" href="assets/css/forgot.css">
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/forgot.css">
 
 <section class="py-5" >
   <div class="container">

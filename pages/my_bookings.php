@@ -26,7 +26,7 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- ✅ ربط ملفات CSS -->
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- CSS already loaded globally via header.php -->
 
 
 <section class="py-5 bg-light min-vh-90">

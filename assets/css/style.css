@@ -1,96 +1,38 @@
-
-
-/* 🟦 Home Page Styles🟦 */
-.hero-section {
-  background: linear-gradient(135deg, #004aad 0%, #007bff 100%);
-  min-height: 90vh;
+/* Global override: make the site background white and text dark for readability
+   This forces a white backdrop across all pages. If a page needs a different
+   background later, add a more specific rule in its page stylesheet. */
+html, body {
+  background: #ffffff !important;
+  color: #111111 !important;
 }
 
-/* 🟦 events Page Styles🟦 */
-
-/* 🔷 قسم الأحداث */
-.events-section {
-  background-color: #f8f9fb;
-  min-height: 90vh;
-  padding: 5rem 0;
+/* Override common full-page wrapper gradients used across the site */
+.py-5 {
+  background: #ffffff !important;
+  background-image: none !important;
 }
 
-/* 🔍 بطاقة البحث */
-.search-card {
-  border-radius: 12px;
+/* Ensure cards and feature sections remain readable on white */
+.feature-card, .custom-card, .card {
+  background: #ffffff;
+  color: #111111;
 }
 
-/* 🔘 زر البحث */
-.search-btn {
-  background: linear-gradient(90deg, #5b46df, #3887f3);
-  border: none;
-}
-
-/* 🪪 بطاقات الأحداث */
-.event-card {
-  border-radius: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.event-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+/* Minor link color adjustment on white background */
+a, .nav-link { 
+  color: #017eb3; 
 }
 
 
 
-/* 🟦 Login Page Styles 🟦*/
-.login-section {
-  background: linear-gradient(135deg, #0d79ac, #0d79ac);
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-  padding: 5rem 0;
-}
+         
 
-/* البطاقة الخاصة بتسجيل الدخول */
-.login-card {
-  border-radius: 12px;
-  background-color: #ffffff;
-}
 
-/* الزر */
-.login-btn {
-  background: linear-gradient(90deg, #4192d3, #52b2ed);
-  border: none;
-  transition: 0.2s ease;
-}
-
-.login-btn:hover {
-  opacity: 0.9;
-}
-
-/* النصوص والروابط */
-.login-section a {
-  color: #f10101;
-}
-
-.login-section a:hover {
-  text-decoration: underline;
-}
+/* login page styles moved to assets/css/login.css */
 
 
 
-/* 🟦 register Page Styles🟦 */
-.register-section {
-  background: linear-gradient(135deg, #0066ff, #6a11cb);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-}
-
-.success-box {
-  max-width: 600px;
-  margin: auto;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #4CAF50, #2E7D32);
-  color: white;
-}
+/* register page styles moved to assets/css/register.css */
 
 
 
@@ -105,10 +47,16 @@
 
 /* 🟦 profile Page Styles🟦 */
 .py-5 {
-  background: linear-gradient(135deg, #004aad 0%, #007bff 100%);
+  background: linear-gradient(135deg, #017eb3 0%, #017eb3 100%);
   min-height: 90vh;
   display: flex;
   align-items: center;
+}
+/* 🟦 for myprofile Page Styles🟦 */
+
+.card.shadow-lg.border-0.p-4 > .card-body {
+  background: #ffffff !important; /* override global .card-body gray */
+  color: #000000; /* keep dark text */
 }
 
 
@@ -122,24 +70,12 @@
   border-radius: 12px;
 }
 
-.event-img {
-  height: 200px;
-  object-fit: cover;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
 
-.placeholder-img {
-  height: 200px;
-  background: #d9d9d9;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-}
 
 
 /* 🟦 reset_Password Page Styles🟦 */
 .reset-section {
-  background: linear-gradient(135deg, #0066ff, #6a11cb);
+  background:#ffffff;
   min-height: 90vh;
   display: flex;
   align-items: center;
@@ -162,40 +98,606 @@
 
 
 
-/* 🟦 reviews Page Styles🟦 */
+/* Reviews page styles moved to assets/css/reviews.css */
 
-.star-rating {
-            display: flex;
-            /* هذا يضمن أن النجوم تظهر بالترتيب الصحيح (1 ثم 5) بصرف النظر عن اتجاه اللغة */
-            flex-direction: row-reverse; 
-            justify-content: center;
-        }
-        .star-rating input {
-            display: none;
-        }
-        .star-rating label {
-            font-size: 2.5rem;
-            color: #5500de;
-            cursor: pointer;
-            padding: 0 5px;
-            transition: color 0.2s;
-        }
-        
-        /* القاعدة الذهبية: تلوين النجمة المحددة وكل النجوم التي تليها (والتي تمثل النجوم ذات القيمة الأقل في HTML المعكوس) */
-        .star-rating input:checked ~ label {
-            color: gold;
-        }
 
-        /* القاعدة الأقوى: عند التحويم على أي نجمة في الحاوية، نقوم بإلغاء لون النجوم أولاً (إعادة تلوينها بالرمادي) */
-        .star-rating:hover label {
-            color: #2ad205;
-        }
-        
-        /* ثم نقوم بتلوين النجمة التي يتم التحويم عليها والنجمة التي تليها (النجوم ذات القيمة الأقل) باللون الذهبي */
-        .star-rating label:hover,
-        .star-rating label:hover ~ label {
-            color: rgba(0, 0, 0, 0.979);
-        }
+
+
+
+
+
+        /* ================================
+   Global Styles
+================================ */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #007bff, #4a90e2);
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* Sticky footer layout */
+#page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto; /* let main grow and push footer to bottom */
+}
+
+footer {
+  margin-top: auto; /* ensures footer sits at page bottom when content is short */
+}
+
+/* ================================
+   Header/Nav (Bootstrap-lite)
+   Custom styles to replace external CSS links
+================================ */
+/* Container */
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.navbar {
+  background-color: #e6e6e6; /* neutral grey navbar */
+  color: #111; /* default text color on navbar */
+  padding: 0; /* compact vertical padding */
+}
+.navbar-gradient { background: #e6e6e6; }
+.navbar-dark .nav-link,
+.navbar-dark .navbar-brand { color: #111; }
+
+/* Keep the page container width as-is but make the navbar's inner container
+   narrower and centered to match the provided design. Use a reasonable max
+   width so it scales on smaller screens. */
+.navbar .container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 1000px; /* narrower navbar content width (adjustable) */
+  margin: 0; /* center the navbar content */
+  padding-left: 12px;  /* balanced left spacing */
+  padding-right: 16px; /* keep a bit more space on the right */
+}
+/* Ensure navbar dropdowns float above page content (prevent clipping by hero/search overlays) */
+.navbar .dropdown-menu {
+  z-index: 3000 !important;
+}
+.navbar-brand .bi { color: #111; }
+
+/* Logo bar under the navbar */
+/* Removed logo-bar styles (logo now in navbar) */
+
+/* Navbar search */
+/* Compact navbar search placed near Home link */
+.navbar-search input.form-control-sm {
+  /* responsive width that scales with viewport and browser zoom */
+  width: clamp(140px, 18vw, 320px);
+  border-radius: 24px;
+  padding: 10px 14px 10px 40px; /* left space for icon */
+  font-size: .9rem;
+  height: 40px; /* slightly smaller to match slimmer navbar */
+  line-height: 24px;
+  background: #ffffff;
+  color: #1f2a30;
+}
+.navbar-search.has-icon { position: relative; }
+.navbar-search .search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #017eb3;
+  pointer-events: none;
+}
+.navbar-search input.form-control-sm:focus { box-shadow: 0 0 0 3px rgba(1,126,179,.25); outline: none; }
+.navbar-search input.form-control-sm::placeholder { color: #6c757d; font-size: .8rem; }
+.navbar-search input.form-control-sm { border: 1px solid rgba(0,0,0,.15); }
+@media (max-width: 991px) {
+  .navbar-search { width: 100%; margin-top: 8px; }
+  .navbar-search input.form-control-sm { flex: 1; }
+}
+
+
+
+
+
+
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.15rem; /* reduced size so brand doesn't force navbar to be wide */
+  color: #111; /* dark text on grey navbar */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* small gap between icon and text */
+}
+/* brand icon should match text color */
+.navbar-brand .bi { color: #111; }
+
+/* KSU logo image unified size across all pages */
+.navbar-logo {
+  width: 200px; /* fixed visual width */
+  height: auto; /* preserve aspect ratio */
+  display: block; /* remove inline spacing quirks */
+}
+
+/* Utilities (subset) */
+.fw-bold { font-weight: 700; }
+.text-info { color: #0dcaf0; }
+.text-warning { color: #ffc107; }
+.me-2 { margin-right: .5rem; }
+.ms-3 { margin-left: 1rem; }
+.ms-auto { margin-left: auto; }
+.align-items-center { align-items: center; }
+
+/* Nav links */
+.navbar-nav { list-style: none; display: flex; gap: 8px; padding: 0; margin: 0; }
+.nav-item { position: relative; }
+.nav-link { color: #222; text-decoration: none; padding: 8px 10px; display: inline-block; border-radius: 6px; }
+.nav-link:hover { color: #111; background-color: rgba(0,0,0,0.06); }
+
+/* Buttons (subset) */
+.btn { display: inline-block; font-weight: 500; border: 1px solid transparent; padding: 6px 12px; border-radius: 6px; cursor: pointer; text-decoration: none; }
+.btn-outline-light { color: #111; border-color: rgba(0,0,0,0.5); background: transparent; }
+.btn-outline-light:hover { background: rgba(0,0,0,0.06); }
+.btn-sm { padding: 4px 10px; font-size: .9rem; }
+
+/* Unified outline-light small button styling (previously only on home) */
+.btn.btn-outline-light.btn-sm {
+  color: #3871a2;
+  border-color: rgba(0,0,0,0.5);
+  background: rgb(242, 238, 238);
+  margin: 0.15rem; /* small neutral margin for all directions */
+}
+
+/* Keep the language toggle stable inside the navbar. It's the last nav-item
+   so it will remain on the right; add a specific helper class if needed. */
+.nav-item .btn.lang-toggle { margin-inline-start: 12px; }
+
+
+
+/* Add small spacing before language button so it doesn't touch logout */
+.nav-item .btn.lang-toggle { margin-inline-start: 12px; }
+
+/* In the navbar, remove the large default margins on generic .btn
+  so small outline buttons (language/logout) sit close together */
+.navbar .btn.btn-outline-light.btn-sm { margin: 0 !important; padding: 6px 10px; }
+.navbar .logout-link { margin: 0 !important; }
+.navbar .btn.lang-toggle { margin: 0 !important; }
+
+/* Toggler + collapse (mobile) */
+.navbar-toggler { display: none; background: transparent; border: 1px solid rgba(0,0,0,0.25); padding: 6px 8px; border-radius: 6px; color: #111; }
+.navbar-toggler-icon { width: 20px; height: 2px; background: currentColor; position: relative; display: inline-block; }
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after { content: ""; position: absolute; left: 0; width: 20px; height: 2px; background: currentColor; }
+.navbar-toggler-icon::before { top: -6px; }
+.navbar-toggler-icon::after { top: 6px; }
+
+.collapse { display: flex; }
+.collapse.show { display: flex; }
+
+
+/* Bootstrap Icons baseline: allow icons to render and inherit color */
+.bi { display: inline-block; overflow: visible; width: auto; height: auto; color: inherit; }
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar .container { flex-wrap: wrap; }
+  .navbar-toggler { display: inline-flex; align-items: center; justify-content: center; }
+  .collapse { display: none; width: 100%; }
+  .collapse.show { display: block; }
+  .navbar-nav { flex-direction: column; align-items: flex-start; gap: 0; margin-top: 8px; }
+  .nav-link { width: 100%; border-radius: 0; padding-left: 0; }
+  .dropdown-menu { position: static; width: 100%; border: none; border-radius: 0; margin-left: 0; }
+}
+
+/* Explicitly ensure shown dropdown menus are visible in all contexts */
+.dropdown-menu.show { display: block !important; opacity: 1; visibility: visible; }
+
+/* Admin Panel dropdown look: set label/caret color */
+.navbar .dropdown .nav-link.dropdown-toggle#adminDropdown { color: #111111 !important; }
+
+/* Remove any previous split-control remnants; single toggle is used now */
+
+/* (Removed old split-control CSS; not used) */
+
+/* ================================
+   Hero Section
+================================ */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+/* ================================
+   Buttons
+================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  background: #fff;
+  color: #007bff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 20px 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.btn .bi {
+  margin-inline-end: 8px; /* add gap between icon and text (RTL-aware) */
+}
+
+.btn:hover {
+  background: #f1f1f1;
+  transform: translateY(-2px);
+}
+
+/* ================================
+   Info Cards
+================================ */
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 25px;
+  width: 280px;
+  text-align: left;
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.feature-card i {
+  font-size: 35px;
+  margin-bottom: 15px;
+  display: block;
+  color: #fff;
+}
+
+.feature-card h3 {
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+}
+
+/* ================================
+   Scroll Up Button
+================================ */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.scroll-top:hover {
+  background: #0056b3;
+}
+
+
+.navbar .btn.lang-toggle {
+  margin-left: 1300px !important; /* Fixed margin for consistent placement */
+}
+
+
+
+
+
+
+
+
+/*buttons for admin panel*/
+
+.btn.btn-outline-success.w-100.mt-2 {
+  background: #ffffff !important; /* solid light grey background */
+  color: #007bff; /* keep existing blue text */
+  transition: 0.2s ease;
+}
+.btn.btn-outline-success.w-100.mt-2:hover {
+  background: #afacac !important; /* slightly darker on hover */
+}
+
+
+.btn.btn-outline-warning.w-100.mt-2{
+  background: #ffffff !important; /* solid light grey background */
+  color: #007bff; /* keep existing yellow text */
+  transition: 0.2s ease;
+}
+.btn.btn-outline-warning.w-100.mt-2:hover{
+  background: #afacac !important; /* solid light grey background */
+}
+
+.btn.btn-outline-info.w-100.mt-2{
+  background: #ffffff !important; /* solid light grey background */
+  color: #007bff; /* keep existing blue text */
+  transition: 0.2s ease;
+}
+.btn.btn-outline-info.w-100.mt-2:hover{
+  background: #afacac !important; /* slightly darker on hover */
+}
+
+
+.btn.btn-outline-danger.w-100.mt-2{
+  background: #ffffff !important; /* solid light grey background */
+  color: #007bff; /* keep existing red text */
+  transition: 0.2s ease;
+}
+.btn.btn-outline-danger.w-100.mt-2:hover{
+  background: #afacac !important; /* slightly darker on hover */
+}
+
+
+.btn.btn-sm.btn-info.text-white {
+  background: #ffffff !important;
+  color: #007bff !important;
+
+}
+.btn.btn-sm.btn-info.text-white:hover {
+  background: #afacac !important;
+}
+
+/*Register button*/
+.btn.btn-primary.w-100.mt-4{
+  background: #ffffff !important;
+  color: #007bff !important;
+  border: none;
+  transition: 0.2s ease;
+  /* make this button smaller and not full-width */
+  font-size: 1.00rem; /* smaller text */
+  padding: 6px 12px;   /* tighter padding */
+  line-height: 2.2;
+  border-radius: 6px;
+  width: 300px !important;   /* override w-100 */
+  display: block;            /* allow centering with auto margins */
+  margin-left: auto;
+  margin-right: auto;        /* center horizontally */
+}
+.btn.btn-primary.w-100.mt-4:hover{
+  background: #afacac !important;
+}
+
+
+
+.btn.btn-primary.w-100.login-btn{
+  background: #ffffff !important;
+  color: #007bff !important;
+  border: none;
+  transition: 0.2s ease;
+  /* make this button smaller and not full-width */
+  font-size: 1.00rem; /* smaller text */
+  padding: 6px 12px;   /* tighter padding */
+  line-height: 2.2;
+  border-radius: 6px;
+  width: 300px !important;   /* override w-100 */
+  display: block;            /* allow centering with auto margins */
+  margin-left: auto;
+  margin-right: auto;        /* center horizontally */
+}
+.btn.btn-primary.w-100.login-btn:hover{
+  background: #afacac !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+.btn.btn-sm.btn-danger.btn-reject-modal
+{
+  background: #ffffff !important;
+  color: #007bff !important;
+
+}
+.btn.btn-sm.btn-danger.btn-reject-modal:hover
+{
+  background: #afacac !important;
+}
+.btn.btn-sm.btn-success{
+  background: #ffffff !important;
+  color: #007bff !important;
+}
+.btn.btn-sm.btn-success:hover{
+  background: #afacac !important;
+}
+
+
+
+
+
+
+
+
+
+/*approve_events page*/
+
+.card-body {
+  background: #f1f1f3 !important;
+  color: #000000 !important; /* dark text for section headers */
+}
+
+
+
+.fw-bold.text-primary.mb-5.text-center{
+  color: #000000 !important;
+}
+.fw-bold.text-info.mb-4.text-center{
+  color: #000000 !important;
+}
+.fw-bold.text-warning.mb-4.text-center{
+  color: #000000 !important;
+}
+.text-center.fw-bold.mb-4.text-secondary{
+  color: #000000 !important;
+}
+
+
+
+
+
+.btn.btn-sm.btn-outline-primary.me-2 {
+  background: #d4d3d3;
+  border: none;
+  color: #017eb3;
+}
+.btn.btn-sm.btn-outline-primary.me-2:hover {
+  background: #9b9898 ;
+}
+
+.btn.btn-sm.btn-outline-danger.delete-btn{
+  background: #d4d3d3;
+  border: none;
+  color: #017eb3;
+}
+.btn.btn-sm.btn-outline-danger.delete-btn:hover{
+  background: #9b9898 ;
+}
+
+.badge.bg-info.mb-2{
+  background-color: #17a2b8;
+  color: #ffffff;
+  padding: 10px;
+}
+
+
+
+.btn.btn-primary.w-100{
+  background: #ffffff !important;
+  color: #007bff !important;
+  border: none;
+  transition: 0.2s ease;
+  /* make this button smaller and not full-width */
+  font-size: 1.00rem; /* smaller text */
+  padding: 6px 12px;   /* tighter padding */
+  line-height: 2.2;
+  border-radius: 6px;
+  width: 300px !important;   /* override w-100 */
+  display: block;            /* allow centering with auto margins */
+  margin-left: auto;
+  margin-right: auto;        /* center horizontally */
+  
+}
+.btn.btn-primary.w-100:hover{
+  background: #afacac !important;
+}
+
+/* Prevent Bootstrap active/focus state from changing color/adding gradient */
+.btn.btn-primary.w-100:active,
+.btn.btn-primary.w-100:focus,
+.btn.btn-primary.w-100.login-btn:active,
+.btn.btn-primary.w-100.login-btn:focus,
+.btn.btn-primary.login-btn:active,
+.btn.btn-primary.login-btn:focus {
+  background: #ffffff !important;
+  color: #007bff !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+/* Optional: keep visited state identical */
+.btn.btn-primary:visited {
+  background: #ffffff !important;
+  color: #007bff !important;
+}
+
+
+
+
+
+
+
+
+
+.btn.btn-sm.btn-outline-danger.delete-user-btn{
+  background: #ffffff;
+  border: none;
+  color: #017eb3;
+}
+.btn.btn-sm.btn-outline-danger.delete-user-btn:hover{
+  background: #9b9898 ;
+}
+
+
+.btn.btn-danger{
+  background: #ffffff !important;
+  color: #007bff !important;
+
+}
+.btn.btn-danger:hover{
+  background: #afacac !important;
+}
+.btn.btn-secondary{
+  background: #ffffff !important;
+  color: #007bff !important;
+
+}
+.btn.btn-secondary:hover{
+  background: #afacac !important;
+}
+
+
+
+
+
+
 
 
 

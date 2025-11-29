@@ -1,0 +1,61 @@
+:root {
+  /* Brand Colors */
+  --color-primary: #007bff;
+  --color-primary-dark: #0056b3;
+  --color-accent: #6a11cb;
+  --color-success: #28a745;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-info: #0dcaf0;
+  --color-light: #f8f9fa;
+  --color-dark: #1e2325;
+
+  /* Gradients */
+  --gradient-hero: linear-gradient(135deg, #004aad 0%, #007bff 100%);
+  --gradient-register: linear-gradient(135deg, #0066ff, #6a11cb);
+  --gradient-login: linear-gradient(135deg, #0d79ac, #0d79ac);
+  --gradient-navbar: linear-gradient(90deg, #1e2325ff);
+
+  /* Spacing Scale (rem) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,.08);
+  --shadow: 0 4px 12px rgba(0,0,0,.12);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.18);
+
+  /* Transition */
+  --transition-fast: 150ms ease;
+  --transition: 300ms ease;
+}
+
+/* Dark Theme (optional future toggle) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-light: #1f2a30;
+    --color-dark: #121517;
+    --shadow: 0 4px 14px rgba(0,0,0,.6);
+  }
+}
+
+/* Utility examples using variables */
+.bg-gradient-hero { background: var(--gradient-hero); }
+.bg-gradient-register { background: var(--gradient-register); }
+.bg-gradient-login { background: var(--gradient-login); }
+.navbar-gradient { background: var(--gradient-navbar); }
+
+.text-primary-custom { color: var(--color-primary); }
+.text-accent { color: var(--color-accent); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.shadow-custom { box-shadow: var(--shadow); }

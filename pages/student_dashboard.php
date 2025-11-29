@@ -15,28 +15,7 @@ if (!$user || $user['role_id'] != 3) {
     exit;
 }
 
-// ⚠️ Cancel booking logic
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
-    // يجب استخدام فلترة وتحقق أقوى من booking_id في تطبيق حقيقي
-    $booking_id = intval($_POST['booking_id']);
-    
-    // يجب أن يتم التحقق من أن الفعالية لم تبدأ بعد قبل الإلغاء (لأسباب أمنية)
-    
-    try {
-        $stmt = $pdo->prepare("DELETE FROM bookings WHERE id = ? AND user_id = ?");
-        if ($stmt->execute([$booking_id, $user['id']])) {
-            $_SESSION['success_message'] = lang('booking_cancel_success');
-        } else {
-            $_SESSION['error_message'] = lang('booking_cancel_fail');
-        }
-    } catch (PDOException $e) {
-        error_log("Database error during booking cancellation: " . $e->getMessage());
-        $_SESSION['error_message'] = lang('database_error_cancellation');
-    }
-
-    header("Location: ?page=student_dashboard");
-    exit;
-}
+// Cancellation logic moved to pre-header section in index.php to prevent 'headers already sent' warning.
 
 // ----------------------------------------------------
 // ✅ 1. جلب حجوزات الطالب مع تفاصيل الفعالية وحالة التقييم
@@ -49,7 +28,7 @@ try {
             b.id AS booking_id,
             e.id AS event_id,
             e.title,
-            e.date,
+            e.start_at ,
             e.end_at,
             e.location,
             -- جلب معرف التقييم إن وجد
@@ -75,23 +54,17 @@ $cancel_modal_message = $lang == 'ar' ? 'هل أنت متأكد من إلغاء 
 $cancel_modal_btn = $lang == 'ar' ? 'نعم، إلغاء الحجز' : 'Yes, Cancel Booking';
 
 ?>
+
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/student_dashboard.css">
+
 <!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo lang('student_dashboard'); ?></title>
-    <!-- استيراد Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- استخدام CSS مخصص للأزرار داخل الجدول -->
-    <style>
-        /* لضمان تنسيق جيد للأزرار داخل عمود Actions */
-        .action-cell .btn {
-            /* إضافة هامش بسيط بين الأزرار */
-            margin-right: 4px;
-            margin-bottom: 4px;
-        }
-    </style>
+    <!-- Page-specific CSS (Bootstrap & Icons loaded globally) -->
+    <?php $extra_css[] = 'student_dashboard'; ?>
 </head>
 
 <body>
@@ -102,7 +75,9 @@ $cancel_modal_btn = $lang == 'ar' ? 'نعم، إلغاء الحجز' : 'Yes, Can
                 <div class="card shadow-lg border-0 rounded-4">
                     <div class="card-header bg-primary text-white text-center rounded-top-4 py-3">
                         <h1  class="h3 mb-0"><?php echo lang('student_dashboard'); ?></h1>
-                        <p  class="mb-0" lang="<?php echo $lang; ?>" dir="<?php echo ($lang === 'ar' ? 'rtl' : 'ltr'); ?>">  <?php echo lang('Hello'); ?> , <?php echo e($user['name']); ?> </p>
+                        <p class="mb-0" lang="<?php echo $lang; ?>" dir="<?php echo ($lang === 'ar' ? 'rtl' : 'ltr'); ?>">
+                            <?php echo ($lang === 'ar' ? 'مرحباً' : lang('Hello')); ?>، <?php echo e($user['name']); ?>
+                        </p>
                     </div>
                     <div class="card-body p-4">
 
@@ -135,13 +110,13 @@ $cancel_modal_btn = $lang == 'ar' ? 'نعم، إلغاء الحجز' : 'Yes, Can
                                         $now = new DateTime();
                                         foreach ($bookings as $index => $b): 
                                             // تحديد تاريخ نهاية الفعالية للحالة
-                                            $event_end_date = new DateTime($b['end_at'] ?? $b['date']);
+                                            $event_end_date = new DateTime($b['end_at'] ?? $b['start_at']);
                                             $is_finished = $event_end_date < $now;
                                         ?>
                                             <tr>
                                                 <td><?php echo $index + 1; ?></td>
                                                 <td><?php echo e($b['title']); ?></td>
-                                                <td><?php echo e(format_date($b['date'])); ?></td>
+                                                <td><?php echo e(format_date($b['start_at'])); ?></td>
                                                 <td><?php echo e($b['location']); ?></td>
                                                 
                                                 <td class="action-cell text-nowrap">
@@ -229,7 +204,6 @@ $cancel_modal_btn = $lang == 'ar' ? 'نعم، إلغاء الحجز' : 'Yes, Can
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const cancelConfirmationModal = document.getElementById('cancelConfirmationModal');
@@ -248,6 +222,4 @@ $cancel_modal_btn = $lang == 'ar' ? 'نعم، إلغاء الحجز' : 'Yes, Can
             });
         });
     </script>
-</body>
-
-</html>
+<!-- Page content ends -->

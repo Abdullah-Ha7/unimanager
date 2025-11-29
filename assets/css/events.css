@@ -1,0 +1,90 @@
+/* Events page styles: only for pages/events.php */
+
+/* Make the page background white on the Events page only */
+body {
+  background: #ffffff !important;
+  color: #1f2a30; /* restore dark text since global sets white */
+}
+
+/* Section wrapper */
+.events-section {
+  background-color: #ffffff;
+  min-height: 90vh;
+  padding: 2.5rem ;
+}
+
+/* Search card */
+.search-card {
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+/* Search button */
+.search-btn {
+  background: linear-gradient( #017eb3);
+  border: none;
+  color: #fff;
+}
+.search-btn:hover { filter: brightness(0.95); }
+.search-btn:active { filter: brightness(0.9); }
+
+/* Event cards */
+.event-card {
+  border-radius: 16px;
+  background-color: rgb(199, 201, 206); /* light grey card background */
+  border: 1px solid rgba(0,0,0,.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Event images: full-width top thumbnails for stacked cards */
+.event-img {
+  width: 100%;
+  display: block;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.placeholder-img {
+  width: 100%;
+  height: 200px;
+  background: #d9d9d9;
+  border-radius: 10px;
+  display: block;
+}
+
+/* View Details button (scoped so other outline buttons stay unchanged) */
+.event-card .btn-outline-primary {
+  background: linear-gradient( #017eb3); /* warm accent */
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transition: filter .2s ease, transform .2s ease;
+}
+.event-card .btn-outline-primary .bi { color: #fff; }
+.event-card .btn-outline-primary:hover { filter: brightness(0.95); transform: translateY(-2px); }
+.event-card .btn-outline-primary:active { filter: brightness(0.88); transform: translateY(0); }
+.btn.btn-primary.btn-lg.search-btn {
+  background: linear-gradient( #017eb3);
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transition: filter .2s ease, transform .2s ease;
+}
+.btn.btn-primary.btn-lg.search-btn:hover { filter: brightness(0.60); transform: translateY(-2px); }
+.btn.btn-primary.btn-lg.search-btn:active { filter: brightness(0.88); transform: translateY(0); }
+
+
+
+
+[dir='ltr'] .btn.btn-outline-light.btn-sm { margin-left: 800px; }
+[dir='rtl'] .btn.btn-outline-light.btn-sm { margin-right: 800px; }

@@ -8,8 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 ?>
 
-<!-- ✅ ربط ملفات CSS -->
-<link rel="stylesheet" href="assets/css/style.css">
+<!-- CSS already loaded globally via header.php -->
 
 
 <?php if (!empty($_SESSION['success_message'])): ?>
@@ -41,12 +40,21 @@ if (session_status() === PHP_SESSION_NONE) {
                 <label class="form-label"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'الاسم الكامل' : 'Full Name'; ?></label>
                 <input type="text" name="name" class="form-control" required>
               </div>
+              <div class="mb-3" id="univ-id-wrap">
+                  <label class="form-label">
+                    <?php echo ($_SESSION['lang'] == 'ar') ? 'الرقم الجامعي' : 'University ID'; ?>
+                  </label>
+                  <input type="text" id="university_id" name="university_id" class="form-control" placeholder="e.g. 123456789" inputmode="numeric" pattern="\\d{9}" maxlength="9">
+                  
+                  
+                </div>
 
               <div class="mb-3">
                 <label class="form-label"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'البريد الإلكتروني' : 'Email Address'; ?></label>
                 <input type="email" name="email" class="form-control" required placeholder="name@example.com">
               </div>
-
+              
+                
               <div class="mb-3">
                 <label class="form-label"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'كلمة المرور' : 'Password'; ?></label>
                 <input type="password" id="password" name="password" class="form-control" required>
@@ -66,7 +74,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
               <div class="mb-3">
                 <label class="form-label"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'الدور' : 'Role'; ?></label>
-                <select name="role" class="form-select">
+                <select name="role" id="role" class="form-select">
                   <option value="user"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'طالب' : 'Student'; ?></option>
                   <option value="organizer"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'منظم' : 'Organizer'; ?></option>
                 </select>
@@ -91,4 +99,54 @@ if (session_status() === PHP_SESSION_NONE) {
   </div>
 </section>
 
-<script src="assets/js/password-check.js"></script>
+<script>
+// Toggle University ID requirement based on role
+const roleSel = document.getElementById('role');
+const univInput = document.getElementById('university_id');
+function updateUnivRequirement(){
+  const isStudent = roleSel.value === 'user';
+  if (isStudent) {
+    univInput.setAttribute('required','required');
+    univInput.setAttribute('pattern','\\d{9}');
+    univInput.setAttribute('maxlength','9');
+  } else {
+    univInput.removeAttribute('required');
+    univInput.removeAttribute('pattern');
+    univInput.removeAttribute('maxlength');
+  }
+}
+roleSel.addEventListener('change', updateUnivRequirement);
+updateUnivRequirement();
+
+// Force digits-only input and cap at 10 characters
+univInput.addEventListener('input', function(){
+  // remove any non-digit characters
+  let v = this.value.replace(/\D+/g, '');
+  // cap to 10 digits
+  if (v.length > 10) v = v.slice(0, 10);
+  this.value = v;
+});
+document.getElementById('password').addEventListener('input', function() {
+  const val = this.value;
+  const len = document.getElementById('len');
+  const upper = document.getElementById('upper');
+  const lower = document.getElementById('lower');
+  const num = document.getElementById('num');
+
+  // Check length
+  if (val.length >= 8) { len.classList.replace('text-danger','text-success'); len.querySelector('i').className = 'bi bi-check-circle'; }
+  else { len.classList.replace('text-success','text-danger'); len.querySelector('i').className = 'bi bi-x-circle'; }
+
+  // Uppercase
+  if (/[A-Z]/.test(val)) { upper.classList.replace('text-danger','text-success'); upper.querySelector('i').className = 'bi bi-check-circle'; }
+  else { upper.classList.replace('text-success','text-danger'); upper.querySelector('i').className = 'bi bi-x-circle'; }
+
+  // Lowercase
+  if (/[a-z]/.test(val)) { lower.classList.replace('text-danger','text-success'); lower.querySelector('i').className = 'bi bi-check-circle'; }
+  else { lower.classList.replace('text-success','text-danger'); lower.querySelector('i').className = 'bi bi-x-circle'; }
+
+  // Number
+  if (/\d/.test(val)) { num.classList.replace('text-danger','text-success'); num.querySelector('i').className = 'bi bi-check-circle'; }
+  else { num.classList.replace('text-success','text-danger'); num.querySelector('i').className = 'bi bi-x-circle'; }
+});
+</script>

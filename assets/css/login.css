@@ -1,0 +1,52 @@
+/* Login page styles: only for pages/login.php */
+
+.login-section {
+  /* Page background for login: neutral grey */
+  background: #ffffff;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 0;
+  color: #111; /* ensure readable text on grey */
+}
+
+.login-card {
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.login-card .card-body { background:#ffffff !important; }
+
+.btn.btn-primary.w-100.login-btn {
+  background: #ffffff !important;
+  color: #007bff !important;
+  border: none;
+  transition: 0.2s ease;
+  font-size: 1.00rem; /* smaller text */
+  padding: 6px 12px; /* tighter padding */
+  line-height: 2.2;
+  border-radius: 6px;
+  width: 300px !important; /* override w-100 */
+  display: block; /* allow centering with auto margins */
+  margin-left: auto;
+  margin-right: auto; /* center horizontally */
+}
+.btn.btn-primary.w-100.login-btn:hover,
+.btn.btn-primary.w-100.login-btn:active,
+.btn.btn-primary.w-100.login-btn:focus {
+  background: #afacac !important;
+  color: #007bff !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/*forgot link style */
+.text-decoration-none {
+  color: #474f74 !important;
+}
+
+
+
+

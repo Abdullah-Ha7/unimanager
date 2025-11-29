@@ -1,0 +1,85 @@
+.py-5{
+    background: linear-gradient(135deg, #ffffff, #ffffff);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.mb-3.mt-4 {
+
+    background: #d3f1d5;
+    color : #000000;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+
+    }
+
+
+
+    .btn.btn-success.btn-lg.shadow-sm{
+        background: #518856;
+        border: none;
+        color: #ffffff;}
+
+[dir='ltr'] .btn.btn-outline-light.btn-sm { margin-left: 800px; }
+[dir='rtl'] .btn.btn-outline-light.btn-sm { margin-right: 800px; }
+
+/* Organizer dashboard: action icon styles (scoped to this page) */
+.table td .btn.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 50%;
+    border: 0.5px solid rgba(0,0,0,0.06);
+    box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+}
+
+/* Eye: light-blue background, blue icon */
+.table td .btn.action-eye { background: #e6f6ff; color: #017eb3; }
+.table td .btn.action-eye .bi { font-size: 0.95rem; }
+
+/* Edit (pencil/pin): orange background, white icon */
+.table td .btn.action-edit { background: #ffecd1; color: #d35400; }
+.table td .btn.action-edit .bi { color: #d35400; }
+
+/* Delete: red background, white icon */
+.table td .btn.action-delete { background: #ffebeb; color: #c62828; }
+.table td .btn.action-delete .bi { color: #c62828; }
+
+/* On hover, slightly darken backgrounds for affordance */
+.table td .btn.action-eye:hover { background: #d0efff; }
+.table td .btn.action-edit:hover { background: #ffd9b3; }
+.table td .btn.action-delete:hover { background: #ffd6d6; }
+
+.btn.btn-danger {
+    background: #ffffff;
+    color : #007bff;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 6px rgba(253, 0, 0, 0);
+    
+    }
+    
+    .btn.btn-danger:hover {
+    background: #afacac;
+    
+    }
+
+    .btn.btn-secondary{
+        background: #ffffff;
+        color : #007bff;
+        border: 1px solid rgba(0, 0, 0, 0.12);
+        box-shadow: 0 2px 6px rgba(253, 0, 0, 0);
+        
+        }
+        
+        .btn.btn-secondary:hover {
+        background: #afacac;
+        
+        }

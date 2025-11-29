@@ -1,0 +1,55 @@
+/* Universal icon enhancements and animations */
+
+/* Base icon sizing and alignment helpers */
+.bi {
+  vertical-align: -0.125em; /* align nicely with text */
+  transition: transform 200ms ease, color 200ms ease, opacity 200ms ease;
+}
+
+/* Subtle hover lift on any icon inside links/buttons */
+a .bi, button .bi, .btn .bi {
+  transform-origin: center;
+}
+
+/* Animation keyframes */
+@keyframes icon-pop-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes icon-float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes icon-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Base animation classes */
+.icon-animated {
+  animation: icon-pop-in 420ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.icon-hover-pulse:hover { animation: icon-pulse 700ms ease-in-out; }
+.icon-hover-float:hover { animation: icon-float 1200ms ease-in-out; }
+.icon-hover-spin:hover  { animation: icon-spin 900ms linear; }
+
+/* Combine with color utilities for a nicer effect */
+.icon-emphasis { filter: drop-shadow(0 1px 0 rgba(0,0,0,.06)); }
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .bi { transition: none; }
+  .icon-animated,
+  .icon-hover-pulse:hover,
+  .icon-hover-float:hover,
+  .icon-hover-spin:hover { animation: none !important; }
+}

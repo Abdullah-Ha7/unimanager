@@ -1,7 +1,13 @@
-/* 🟦 forgot Page Styles🟦 */
+/* 🟦 forgot Page Styles (pure white background) 🟦 */
 .py-5 {
-  background: linear-gradient(135deg, #ffffff, #009bfb);
+  background: #ffffff; /* removed gradient for solid white */
   min-height: 90vh;
   display: flex;
   align-items: center;
+}
+
+
+.card.shadow-lg.border-0.p-4 > .card-body {
+  background: #ffffff !important; /* override global .card-body gray */
+  color: #000000; /* keep dark text */
 }

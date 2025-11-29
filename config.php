@@ -9,8 +9,16 @@ if (empty($_SESSION['lang'])) {
     $_SESSION['lang'] = 'en';
 }
 
-// ✅ Base URL (adjust if your folder name is different)
-define('BASE_URL', 'http://localhost/Project-3');
+// ✅ Base URL (use current host so QR works on mobile)
+// This builds BASE_URL from the incoming request host/IP
+// Example on LAN: http://192.168.1.50/Project-3
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+define('BASE_URL', $scheme . '://' . $host . '/Project-3');
+// Secret key for signing/verifying tokens (QR verification)
+if (!defined('SECRET_KEY')) {
+    define('SECRET_KEY', 'change-this-secret-ksu-2025');
+}
 
 // ✅ Database connection
 $dbHost = 'localhost';

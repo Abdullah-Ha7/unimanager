@@ -35,19 +35,9 @@ try {
 }
 
 ?>
-<!DOCTYPE html>
-<html lang=<?php echo $lang; ?> >
-<head>
-    <!-- تضمين ملف الرأس إذا كان موجودًا -->
-    <?php // include '../components/head.php'; ?> 
-    <title><?php echo lang('manage_all_events'); ?></title>
-    <!-- إضافة Bootstrap CSS إذا لم يكن مضمناً مسبقاً -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body class="bg-light">
+<?php // Header and opening <body> are handled by index.php -> header.php ?>
 
-<section class="py-5"style="min-height:60vh;">
+<section class="py-5 min-h-60vh">
     <div class="container">
         <h2 class="fw-bold text-center mb-5 text-primary">
             <i class="bi bi-calendar-check"></i> <?php echo lang('manage_all_events'); ?>
@@ -167,17 +157,14 @@ try {
 function display_status_badge($status) {
     switch ($status) {
         case 'approved':
-            return '<span class="badge bg-success">Approved</span>';
+            return '<span class="badge bg-success">' . lang('Approved') . '</span>';
         case 'pending':
-            return '<span class="badge bg-warning text-dark">Pending</span>';
+            return '<span class="badge bg-warning text-dark">' . lang('Pending') . '</span>';
         case 'rejected':
-            return '<span class="badge bg-danger">Rejected</span>';
+            return '<span class="badge bg-danger">' . lang('Rejected') . '</span>';
         default:
-            return '<span class="badge bg-secondary">N/A</span>';
+            return '<span class="badge bg-secondary">' . lang('N/A') . '</span>';
     }
 }
 ?>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php // Footer and scripts are handled by index.php -> footer.php ?>

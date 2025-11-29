@@ -1,7 +1,43 @@
 /* 🟦 profile Page Styles🟦 */
 .py-5 {
-  background: linear-gradient( #00fbff 100%);
+  background: linear-gradient( #017eb3 100%);
   min-height: 90vh;
   display: flex;
   align-items: center;
 }
+
+/* Profile page update button custom color */
+.btn.btn-profile {
+  background: linear-gradient(90deg, #033ccc, #1d3d8e); /* grey gradient to match navbar */
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn.btn-profile:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.btn.btn-profile:active {
+  transform: translateY(0);
+}
+/* Gap between icon and text (RTL aware) */
+.btn.btn-profile i {
+  margin-inline-end: 8px; /* adds space after icon before text in LTR; before in RTL */
+  font-size: 1.1em;
+}
+.text-center.fw-bold.text-primary.mb-4{
+background: #ffffff;
+  color: #017eb3;
+}
+
+
+.btn.btn-profile.w-100 {
+  background: #017eb3 ;
+  color: #ffffff;
+  
+}
+
+

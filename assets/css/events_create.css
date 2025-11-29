@@ -1,0 +1,68 @@
+/*
+ * Page stylesheet: events_create
+ * Scope: Styles for Organizer Create Event page
+ */
+
+/* Add your Organizer Create Event styles here */
+
+/* Page background: keep the create event area clean and white */
+/* This file is only loaded on the events_create page via $extra_css */
+.container.my-5 {
+	background: #ffffff;
+}
+
+/* Ensure the card uses a white background (override if theme applied) */
+.card.shadow-lg {
+	background: #ffffff;
+}
+
+/* Make the save button smaller and centered instead of full-width */
+form button[type="submit"].btn.btn-primary.w-100 {
+	width: auto !important;
+	display: block;
+	margin: 0.6rem auto 0;
+	padding: 0.45rem 0.9rem;
+	font-size: 0.95rem;
+	max-width: 260px;
+}
+
+/* Slightly reduce the header padding so the card looks compact */
+.card-header.py-3 {
+	padding-top: 0.65rem;
+	padding-bottom: 0.65rem;
+}
+
+/* Force a fully white page background for the create-event page.
+   This overrides site/global wrappers (e.g. .py-5 gradient) when
+   this stylesheet is loaded via $extra_css on the events_create page. */
+html, body {
+	background: #ffffff !important;
+}
+
+/* If a global wrapper class like .py-5 applies a gradient, override it here */
+.py-5 {
+	background: #ffffff !important;
+	background-image: none !important;
+}
+
+
+
+.btn.btn-primary.w-100 {
+  background: linear-gradient(90deg, #017eb3);
+  color: #fff;
+  border: none;
+  transition: 0.2s ease;
+}
+
+
+
+.card-header.bg-primary.text-white.text-center.rounded-top-4.py-3 {
+  background: linear-gradient(90deg, #017eb3);
+  color: #fff;
+  border: none;
+  transition: 0.2s ease;
+}
+
+
+
+

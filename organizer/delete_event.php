@@ -26,7 +26,7 @@ if (!$event_id || !is_numeric($event_id)) {
     $_SESSION['error_message'] = ($lang == 'ar') 
         ? '❌ معرف الحدث غير صالح.' 
         : '❌ Invalid event ID.';
-    header("Location: dashboard.php");
+    header("Location: organizer_dashboard.php");
     exit;
 }
 
@@ -43,7 +43,7 @@ try {
         $_SESSION['error_message'] = ($lang == 'ar') 
             ? '❌ ليس لديك الحق في حذف هذا الحدث.' 
             : '❌ You are not authorized to delete this event.';
-        header("Location: dashboard.php");
+        header("Location: organizer_dashboard.php");
         exit;
     }
 
@@ -61,7 +61,7 @@ try {
         : '✅ Event deleted successfully.';
         
     // يجب التوجيه إلى المسار الصحيح للوحة التحكم
-    header("Location: dashboard.php");
+    header("Location: organizer_dashboard.php");
     exit;
 
 } catch (PDOException $e) {
@@ -69,7 +69,7 @@ try {
     $_SESSION['error_message'] = ($lang == 'ar') 
         ? 'فشل حذف الفعالية: ' . $e->getMessage() 
         : 'Failed to delete event: ' . $e->getMessage();
-    header("Location: dashboard.php");
+    header("Location: organizer_dashboard.php");
     exit;
 }
 ?>

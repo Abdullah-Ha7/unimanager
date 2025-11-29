@@ -169,11 +169,33 @@ function format_date($datetime) {
 
     if ($lang === 'ar') {
         // تنسيق عربي مبسط: السنة/الشهر/اليوم الساعة:الدقيقة (صيغة 24 ساعة)
-        return $dt->format('Y/m/d H:i');
+        return $dt->format('M d, Y  h:i A ');
     } else {
         // تنسيق إنجليزي: الشهر اليوم، السنة الساعة:الدقيقة (صيغة AM/PM)
         return $dt->format('M d, Y h:i A');
     }
+}
+
+// تنسيق الوقت فقط (ساعة:دقيقة) بدون ثوانٍ
+function format_time($datetime) {
+    if (!$datetime || $datetime === '0000-00-00 00:00:00') {
+        return '';
+    }
+    try { $dt = new DateTime($datetime); } catch (Exception $e) { return e($datetime); }
+    $lang = $_SESSION['lang'] ?? 'en';
+    if ($lang === 'ar') {
+        return $dt->format('h:i A'); // 24h
+    }
+    return $dt->format('h:i A'); // 12h with AM/PM
+}
+
+// الحفاظ على ترتيب AM/PM في اللغات RTL (العربية) بإجبار اتجاه الوقت على LTR
+function format_time_am_pm($datetime) {
+    if (!$datetime || $datetime === '0000-00-00 00:00:00') { return ''; }
+    try { $dt = new DateTime($datetime); } catch (Exception $e) { return e($datetime); }
+    $time = $dt->format('h:i A'); // دائما بنفس التنسيق
+    // نلفه داخل span اتجاهه LTR حتى في الصفحات العربية
+    return '<span class="time-ltr">' . e($time) . '</span>'; // e لحماية النص
 }
 
 function get_system_stats(): array {
@@ -208,3 +230,6 @@ function get_system_stats(): array {
     return $stats;
 }
 
+
+
+// تشغيل تنظيف الفعاليات منتهية الصلاحية عند تحميل الملف

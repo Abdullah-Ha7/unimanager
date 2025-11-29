@@ -1,0 +1,111 @@
+/* Register page styles: only for pages/register.php */
+
+/*
+  .register-section
+  - Full-height section wrapper for the page content
+  - Provides the background gradient and vertical centering
+*/
+.register-section {
+  /* Page background for register: neutral grey */
+  background: #ffffff;
+  min-height: 100vh;            /* stretch to viewport height */
+  display: flex;                 /* center the card vertically */
+  align-items: center;           /* vertical alignment */
+  padding: 3rem 0;               /* comfortable top/bottom spacing */
+  color: #111;                   /* readable text on grey */
+}
+
+/*
+  عنوان الصفحة (Create Account)
+  - تغيير لون العنوان أعلى صفحة التسجيل
+  - نستخدم !important لتجاوز لون Bootstrap الافتراضي (text-primary)
+*/
+.register-section h3.text-primary {
+  color: #017eb3 !important; /* تركواز متناسق مع الثيم */
+}
+
+/* Keep registration card body pure white (override global .card-body background) */
+.register-section .card .card-body { background:#ffffff !important; }
+
+/*
+  .success-box
+  - Styles the success alert shown after a successful registration
+  - Constrains width, adds rounded corners, and a green gradient
+*/
+.success-box {
+  max-width: 600px;              /* keep the banner readable */
+  margin: 1rem auto;             /* center it horizontally with space on top */
+  border-radius: 10px;           /* soft corners */
+  background: linear-gradient(90deg, #4CAF50, #2E7D32);
+  color: #ffffff;
+}
+
+/*
+  Optional helpers (kept minimal):
+  The password checklist uses Bootstrap classes (text-danger/text-success)
+  and does not require custom CSS here.
+*/
+
+/* ================================
+   الأزرار في صفحة التسجيل
+   - جميع القواعد هنا مُقيّدة داخل .register-section حتى لا تؤثر على صفحات أخرى
+================================ */
+
+/*
+  .register-section .btn
+  - تنسيق عام لجميع الأزرار داخل صفحة التسجيل
+  - زيادة مساحة النقر مع زوايا دائرية وتنسيق النص
+*/
+
+
+/*
+  .register-section .btn .bi
+  - يضمن وجود مسافة منطقية قبل النص (تعمل في اتجاهي LTR/RTL)
+*/
+
+
+/*
+  .register-section .btn-primary (زر "تسجيل")
+  - الزر الأساسي لإرسال نموذج التسجيل
+  - تدرج لوني تركوازي/أزرق ونص أبيض لقراءة عالية التباين
+  - إزالة الحدود الافتراضية وإضافة تأثيرات تفاعل
+*/
+
+
+/* تأثير التحويم */
+.register-section .btn-primary:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+/* تأثير الضغط */
+.register-section .btn-primary:active {
+  filter: brightness(0.9);
+  transform: translateY(0);
+}
+
+/* حالة التعطيل */
+.register-section .btn-primary:disabled,
+.register-section .btn-primary[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Disable hover/active/focus visual changes for register primary button
+   so it behaves like the login button (remains clickable but doesn't change). */
+.register-section .btn-primary:hover,
+.register-section .btn-primary:active,
+.register-section .btn-primary:focus {
+  background: #afacac !important;
+  color: #ffffff !important;
+  filter: none !important;
+  transform: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+
+
+
+

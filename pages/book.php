@@ -1,4 +1,9 @@
 <?php
+// Ensure output buffering is enabled so header() calls succeed
+if (function_exists('ob_start') && !ob_get_level()) {
+    ob_start();
+}
+
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../functions.php';
 require_once __DIR__ . '/../mailer.php'; // Include the mailer
@@ -12,7 +17,8 @@ if (!$user || $user['role_id'] != 3) {   // only students
     $_SESSION['error_message'] = ($lang == 'ar')
         ? 'الرجاء تسجيل الدخول كطالب أولاً.'
         : 'Please log in as a student first.';
-    header("Location: ?page=login");
+    header("Locat
+    ion: ?page=login");
     exit;
 }
 
@@ -28,7 +34,7 @@ if (!$event_id) {
 // ----------------------------------------
 // 2. جلب تفاصيل الفعالية
 // ----------------------------------------
-$stmt = $pdo->prepare("SELECT * FROM events WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM events WHERE id = ? AND approval_status = 'approved'");
 $stmt->execute([$event_id]);
 $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -87,10 +93,12 @@ if ($stmt->execute([$user['id'], $event_id])) {
         $user['email'],
         $user['name'],
         $event['title'],
-        $event['date'],
+        $event['start_at'],
         $event['end_at'],
         $event['location'],
-        $language
+        $language,
+        $booking_id,
+        isset($user['role_id']) ? (int)$user['role_id'] : null
     );
 
      if ($email_sent) {
@@ -110,7 +118,7 @@ if ($stmt->execute([$user['id'], $event_id])) {
     exit;
 }
 
-// 🚀 التعديل النهائي: توجيه المستخدم إلى صفحة الحجوزات المسموح بها في الـ Router
+// 🚀 التعديل النهائي: توجيه المستخدم إلى صفحة لوحة الطالب عبر الراوتر
 header("Location: ?page=student_dashboard");
 exit;
 ?>

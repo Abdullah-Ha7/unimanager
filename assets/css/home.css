@@ -1,0 +1,260 @@
+/* Home page redesigned hero & featured sections */
+
+/* Collage hero wrapper */
+.main{
+	color: #000;
+}
+.home-hero { position: relative; }
+.collage-wrapper { 
+	position: relative;
+	 overflow: hidden; 
+	 background: #ffffff; 
+	 display: flex; 
+	 justify-content: center; 
+	 margin-top: 0px;
+	}
+
+/* New hero strip: simple row of uniform images */
+.hero-strip { display:flex; gap:4px; padding:8px; overflow-x:auto; border-bottom:1px solid #000; background:#fff; }
+.hero-strip img { height:220px; width:auto; aspect-ratio:4/3; object-fit:cover; flex:0 0 auto; border-radius:4px; }
+@media (max-width: 991.98px){ .hero-strip img { height:180px; } }
+@media (max-width: 575.98px){ .hero-strip { gap:6px; } .hero-strip img { height:150px; aspect-ratio:16/9; } }
+
+/* Mosaic grid uses CSS Grid; aspect ratios simulated with padding trick */
+.mosaic-grid {
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-auto-rows: 100px; /* base row height (bigger tiles) */
+	gap: 4px;
+	width: 100%; /* ensure grid expands inside flex wrapper instead of shrinking */
+	max-width: 1500px;
+	margin: 0 auto;
+	padding: 8px 8px 0;
+	background: #ffffff;
+	border-bottom: 1px solid #a8a3a3; /* solid black divider below images */
+}
+
+.mosaic-grid {
+	background-size: cover;
+	background-position: center;
+	background-color: #d9d9d9;
+	border-radius: 2px;
+	position: relative;
+}
+.mosaic-size-badge {
+	position:absolute; left:4px; top:4px; background:rgba(0,0,0,0.65); color:#fff; font-size:10px; padding:2px 4px; border-radius:3px; pointer-events:none; font-family:monospace;
+}
+.mosaic-item::after {
+	content: "";
+
+/* Uniform variant: every tile same size (2 cols x 2 rows) */
+.mosaic-grid .mosaic-item { grid-column: span 2; grid-row: span 2; }
+@media (max-width: 992px) { .mosaic-grid { grid-auto-rows: 80px; } }
+@media (max-width: 576px) { .mosaic-grid { grid-template-columns: repeat(6,1fr); grid-auto-rows: 70px; } .mosaic-grid .mosaic-item { grid-column: span 3; grid-row: span 3; } }
+	position: absolute; inset: 0;
+	background: linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.25) 100%);
+	opacity: .4;
+}
+
+/* Span helpers (approximate layout) */
+.span-4x3 { grid-column: span 4; grid-row: span 3; }
+.span-3x3 { grid-column: span 3; grid-row: span 3; }
+.span-2x3 { grid-column: span 2; grid-row: span 3; }
+.span-3x2 { grid-column: span 3; grid-row: span 2; }
+.span-2x2 { grid-column: span 2; grid-row: span 2; }
+
+@media (max-width: 992px) {
+	.mosaic-grid { grid-auto-rows: 55px; }
+}
+@media (max-width: 576px) {
+	.mosaic-grid { grid-template-columns: repeat(6,1fr); grid-auto-rows: 50px; }
+	.span-4x3 { grid-column: span 6; }
+	.span-3x3 { grid-column: span 3; }
+}
+
+/* Hero now has no floating search (moved to navbar) */
+.home-hero { padding-top: 0; }
+@media (max-width: 576px) { .home-hero { padding-top: 0; } }
+
+/* Quick links bar */
+.quick-links { background:#fff; box-shadow:0 2px 4px rgba(0,0,0,.04); border-bottom:1px solid rgba(0,0,0,.08); }
+.ql-item { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:.85rem; color:#222; text-decoration:none; border-radius:6px; transition:background .15s ease; }
+.ql-item:hover { background:rgba(0,0,0,.05); }
+.ql-item i { font-size:1rem; }
+
+/* Make the quick-links dropdown trigger a full white button */
+.ql-item.dropdown-toggle {
+	background: #ffffff;
+	border: 1px solid rgba(0,0,0,0.12);
+	box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+/* Dropdown (hover on desktop) */
+.dropdown .dropdown-toggle { cursor: pointer; }
+/* Rely on Bootstrap's own dropdown display logic; remove forced display:none/hover open */
+.dropdown-menu { position: absolute; top: 100%; left: 0; min-width: 200px; background: #1f2a30; color: #cfd3d7; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 0; z-index: 1000; }
+.dropdown-menu-dark { background: #1f2a30; }
+.dropdown-item { display: block; padding: 8px 16px; color: #cfd3d7; text-decoration: none; }
+.dropdown-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.dropdown-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 6px 0; }
+/* Removed .dropdown:hover > .dropdown-menu rule */
+
+/* Light variant for specific dropdowns (e.g., Events By Date) */
+.dropdown-menu-light { 
+	background: #ffffff !important; 
+	color: #017eb3 !important; 
+	border: 1px solid rgba(0,0,0,0.12) !important; 
+	box-shadow: 0 8px 24px rgba(0,0,0,0.08); 
+}
+.dropdown-menu-light .dropdown-item { 
+	color: #017eb3; 
+}
+.dropdown-menu-light .dropdown-item:hover { 
+	background: rgba(1,126,179,0.08); 
+	color: #017eb3; 
+}
+.ql-item.dropdown-toggle:hover { background: #ffffff; }
+
+/* Featured section */
+.featured-section { background:#f5f6f7; }
+.section-title { font-size:1.6rem; font-weight:700; color:#222; }
+.tabs { display:flex; gap:12px; }
+.tab-link { background:none; border:none; padding:6px 4px; position:relative; cursor:pointer; letter-spacing:.5px; color:#444; }
+.tab-link.active { font-weight:600; color:#111; }
+.tab-link.active::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background: var(--color-primary); }
+.event-card { border-radius:14px; background:#fff; }
+.event-card .badge { font-size:.90rem; letter-spacing:.4px; }
+.event-card h5 { font-size:1.15rem; line-height:1.2; }
+.event-card p { font-size:.9rem; }
+
+/* Slightly larger info (date/location/excerpt) inside the event info column */
+.event-card .text-muted { font-size: .88rem; }
+.event-card .mb-3 { margin-bottom: .65rem; }
+.event-card:hover { box-shadow:0 8px 24px rgba(0,0,0,.1); }
+
+/* Compact variant: slightly smaller cards for featured lists */
+.event-card.compact { border-radius:12px; }
+.event-card.compact .card-body { padding: 10px 12px; }
+.event-card.compact h5 { font-size: .95rem; margin-bottom: .35rem; }
+.event-card.compact p { font-size: .72rem; margin-bottom: .35rem; }
+.event-card.compact .event-img-left { width: 120px; height: 90px; }
+.event-card.compact .event-card-row { gap: 12px; }
+.event-card.compact .btn.btn-outline-primary.btn-sm { padding: 4px 8px; font-size: .82rem; }
+
+@media (max-width: 575.98px) {
+	.event-card h5 { font-size: 1.05rem; }
+	.event-card p, .event-card .text-muted { font-size: .88rem; }
+}
+
+/* RTL adjustments */
+[dir='rtl'] .search-bar i.bi { margin-right:0; margin-left:8px; }
+[dir='rtl'] .ql-item { flex-direction:row-reverse; }
+[dir='rtl'] .tab-link.active::after { left:0; right:0; }
+
+/* Featured card image: centered rectangle thumbnail */
+.event-img-square {
+	width: 80%;
+	max-width: 400px;
+	margin: 0.5rem auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 10px;
+	display: block;
+	box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+.placeholder-square {
+	width: 60%;
+	max-width: 260px;
+	margin: 0.5rem auto;
+	aspect-ratio: 4 / 3;
+	background: #d9d9d9;
+	border-radius: 10px;
+	display: block;
+}
+
+@media (max-width: 991.98px) {
+	.event-img-square, .placeholder-square { width: 70%; max-width: 320px; }
+}
+@media (max-width: 575.98px) {
+	.event-img-square, .placeholder-square { width: 90%; max-width: none; aspect-ratio: 16/9; }
+}
+
+.badge.bg-success.mb-2 {
+	background-color: #28a745;
+	color: #ffffff;
+	padding: 10px; 
+}
+.badge.bg-info.mb-2{
+	background-color: #17a2b8;
+	color: #ffffff;
+	padding: 10px;
+}
+/* (Removed page-specific outline-light button styles; now global in style.css) */
+
+
+
+
+
+.btn.btn-danger.dropdown-toggle {
+	background: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	box-shadow: 0 2px 6px rgba(253, 0, 0, 0);
+	
+
+}
+.btn.btn-danger.dropdown-toggle:hover {
+	background: #97959559;
+
+}
+
+
+.btn.btn-outline-primary.btn-sm {
+	background: linear-gradient( #ffffff);
+	border: 1px solid rgba(0, 0, 0, 0.479);
+	color: #017eb3;
+}
+
+/* left-aligned thumbnail for featured/upcoming cards */
+.event-img-left {
+	width: 300px;
+	height: 200px; /* 4:3 */
+	object-fit: cover;
+	border-radius: 8px;
+	flex-shrink: 0;
+}
+.event-card-row { align-items: flex-start; }
+
+/* Stack event cards vertically with the image on top for a card-style layout.
+   This makes each event occupy full width and places the picture above the text. */
+.event-card-row.stack-vertical {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.event-card-row.stack-vertical .event-img-left {
+	width: 100%;
+	height: auto;
+	border-radius: 10px;
+	margin: 0;
+}
+
+@media (max-width: 575.98px) {
+	.event-card-row { flex-direction: column; }
+	.event-img-left { width: 100%; height: auto; border-radius: 10px; }
+}
+
+
+.nav-link.text-warning.fw-semibold {
+	color: #f50000;
+	font-weight: 600;
+}
+
+.btn.btn-outline-primary.btn-sm {
+	background: linear-gradient( #017eb3);
+	border: 1px solid rgb(255, 255, 255);
+	color: #ffffff;
+}
+
+
+
+
+

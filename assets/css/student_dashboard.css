@@ -1,0 +1,104 @@
+/* ==============================================
+   صفحة لوحة الطالب (student_dashboard.php)
+   أنماط الأزرار والعناصر الخاصة بهذه الصفحة فقط
+   ملاحظات بالعربية لتسهيل الصيانة
+============================================== */
+
+/* خلفية الصفحة */
+body { background:#017eb3; }
+
+/* مسافات بسيطة بين أزرار جدول الحجوزات */
+.action-cell .btn { margin-right:4px; margin-bottom:4px; }
+
+/* 1) زر "عرض" (View Event) داخل الجدول */
+.action-cell .btn.btn-sm.btn-primary {
+  background: linear-gradient(90deg, #0aa2c0, #017eb3);
+  border: none;
+  color: #fff;
+}
+.action-cell .btn.btn-sm.btn-primary .bi { margin-inline-end:6px; }
+
+/* 2) زر "قيّم" (Review) بعد انتهاء الفعالية */
+.action-cell .btn.btn-sm.btn-warning {
+  background: linear-gradient(90deg, #ffcd39, #ffc107);
+  border: none;
+  color: #1f2a30;
+}
+.action-cell .btn.btn-sm.btn-warning .bi { margin-inline-end:6px; }
+
+/* 3) زر "تم التقييم" (Reviewed - معطل) */
+.action-cell .btn.btn-sm.btn-outline-success[disabled],
+.action-cell .btn.btn-sm.btn-outline-success:disabled {
+  color: #5cb85c !important;
+  border-color: #5cb85c !important;
+  opacity: .7;
+}
+.action-cell .btn.btn-sm.btn-outline-success .bi { margin-inline-end:6px; }
+
+/* 4) زر "إلغاء" (Cancel) للفعاليات القادمة - إطار أحمر */
+.action-cell .btn.btn-sm.btn-outline-danger {
+  color: #ffffff;
+  border-width: 2px;
+  background: #cb4a4a;
+}
+.action-cell .btn.btn-sm.btn-outline-danger:hover { background: #cb4a4a; color: #ffffff; }
+.action-cell .btn.btn-sm.btn-outline-danger .bi { margin-inline-end:6px; }
+
+/* 5) زر "تصفح الفعاليات" أسفل الصفحة */
+.browse-events-wrapper { text-align:center; margin-top:1.5rem; }
+.browse-events-wrapper .btn.btn-outline-secondary {
+  border-width: 2px;
+  color: #017eb3;
+  border-color: #017eb3;
+  background: #ffffff;
+  padding: .6rem 1.1rem;
+  border-radius: 12px;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.browse-events-wrapper .btn.btn-outline-secondary:hover {
+  background: #017eb3;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+.browse-events-wrapper .btn.btn-outline-secondary .bi { margin-inline-end:8px; }
+
+/* 6) أزرار المودال في تأكيد الإلغاء */
+.modal-footer .btn.btn-danger { background: linear-gradient(90deg, #dc3545, #c82333); border: none; color: #fff; }
+.modal-footer .btn.btn-secondary { background: linear-gradient(90deg, #6c757d, #5c636a); border: none; color:#fff; }
+.modal-body { color: black; }
+/* تحكم بسيط في الهيدر */
+.card-header.bg-primary { background: linear-gradient(90deg, #0aa2c0, #017eb3) !important; }
+
+/* إزالة الفراغ فوق الفوتر في هذه الصفحة فقط */
+section.container.my-5 {
+  margin-bottom: 0 !important; /* يلغي mb من my-5 ويُبقي على المسافة العلوية فقط */
+}
+
+
+
+.btn.btn-outline-secondary {
+  border-width: 2px;
+  color: #ffffff;
+  border-color: #017eb3;
+  background: #017eb3;
+  padding: .6rem 1.1rem;
+  border-radius: 12px;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.col-lg-10{
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 100px;
+}
+
+
+
+
+
+
+
+
+
+

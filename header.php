@@ -1,6 +1,11 @@
 <?php
+// Start session if needed
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
+}
+// Start output buffering early so later header() calls (e.g. in page scripts like book.php) succeed
+if (function_exists('ob_start') && ob_get_level() === 0) {
+  ob_start();
 }
 
 // NOTE: It is assumed that config.php and functions.php are already required 
@@ -41,30 +46,59 @@ $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
 
 ?>
 
-<!-- ✅ Include Bootstrap CSS and Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-
 <!DOCTYPE html>
+<html lang="<?php echo htmlspecialchars($lang, ENT_QUOTES, 'UTF-8'); ?>" dir="<?php echo ($lang === 'ar') ? 'rtl' : 'ltr'; ?>">
 <head> 
     <!-- ✅ وسم <head> الصحيح -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- ✅ 3. استخدام المتغير $site_title في العنوان (الذي يظهر في التبويب) -->
     <title><?php echo e($site_title); ?></title>
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/variables.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/vendor/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/style.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/icons.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/vendor/bootstrap-icons/font/bootstrap-icons.min.css">
+  <?php if (!empty($extra_css) && is_array($extra_css)): ?>
+    <?php foreach ($extra_css as $css_name): ?>
+      <link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/<?php echo htmlspecialchars($css_name, ENT_QUOTES, 'UTF-8'); ?>.css">
+    <?php endforeach; ?>
+  <?php endif; ?>
 </head>
 <body>
 <div id="page-container">
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(90deg, #1e2325ff);">
+<?php
+  // Determine current page and whether it's an auth page early so
+  // we can use the result when rendering the navbar classes.
+  $currentPage = isset($page) ? $page : ($_GET['page'] ?? 'home');
+  $authPages = ['login', 'register', 'login_action', 'register_action'];
+  $isAuthPage = in_array($currentPage, $authPages, true);
+  // Pages where the search should be hidden
+  $hideSearchPages = ['login','login_action','register','register_action','forgot','forgot_action','reset_password'];
+  $showNavbarSearch = !in_array($currentPage, $hideSearchPages, true);
+  // Admin pages list (for persistent admin dropdown)
+  $adminPagesList = ['admin_dashboard','manage_users','manage_all_events','admin_edit_event','approve_events','system_config'];
+  $isAdminPage = in_array($currentPage, $adminPagesList, true);
+
+  ?>
+
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-gradient">
         <div class="container">
-          <!-- Brand -->
-          <a class="navbar-brand fw-bold" href="<?php echo BASE_URL; ?>">
-            <i class="bi bi-mortarboard"></i> 
-            <!-- ✅ 4. استخدام المتغير $site_title في العلامة التجارية (شريط التنقل) -->
-            <?php echo e($site_title); ?>
+          <!-- Brand: KSU logo image -->
+          <a class="navbar-brand fw-bold d-flex align-items-center" href="<?php echo BASE_URL; ?>">
+            <img src="<?php echo BASE_URL; ?>/assets/img/ksu1.png" alt="KSU" class="navbar-logo">
           </a>
+
+          <!-- Moved search next to logo (desktop only) -->
+          <?php if ($showNavbarSearch): ?>
+            <form class="navbar-search has-icon d-none d-lg-flex align-items-center ms-3" method="GET" action="<?php echo BASE_URL; ?>/index.php">
+              <input type="hidden" name="page" value="events">
+              <span class="bi bi-search search-icon"></span>
+              <input type="text" name="search" class="form-control form-control-sm search-input-icon" 
+                placeholder="<?php echo ($lang=='ar') ? 'ابحث في الفعاليات...' : 'Search events...'; ?>" />
+            </form>
+          <?php endif; ?>
 
           <!-- Toggle button for mobile -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -73,7 +107,7 @@ $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
 
           <!-- Nav Links -->
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
+            <ul class="navbar-nav align-items-center">
 
               <!-- Public Links -->
               <li class="nav-item">
@@ -86,22 +120,22 @@ $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
 
               <!-- Logged-in Users -->
               <?php if ($user): ?>
-                <?php if ($user['role_id'] == 1): // ✅ Admin ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-info fw-semibold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                             <i class="bi bi-shield-lock"></i> <?php echo ($lang == 'ar') ? 'لوحة المسؤول' : 'Admin Panel'; ?>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdown">
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=admin_dashboard"><?php echo lang('dashboard'); ?></a></li>
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=manage_users"><?php echo lang('manage_users'); ?></a></li>
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=manage_all_events"><?php echo lang('manage_all_events'); ?></a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=system_config"><i class="bi bi-gear me-2"></i> <?php echo lang('system_configuration'); ?></a></li>
-                        </ul>
-                    </li>
+                <?php if ($user['role_id'] == 1): // Admin - open only on click ?>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle " href="#" id="adminDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-shield-lock"></i> <?php echo ($lang == 'ar') ? 'لوحة المسؤول' : 'Admin Panel'; ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdown">
+                      <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=admin_dashboard"><?php echo lang('dashboard'); ?></a></li>
+                      <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=manage_users"><?php echo lang('manage_users'); ?></a></li>
+                      <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=manage_all_events"><?php echo lang('manage_all_events'); ?></a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="<?php echo BASE_URL; ?>/?page=system_config"><i class="bi bi-gear me-2"></i> <?php echo lang('system_configuration'); ?></a></li>
+                    </ul>
+                  </li>
                 <?php elseif ($user['role_id'] == 2): // Organizer ?>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?php echo BASE_URL; ?>/organizer/dashboard.php">
+                    <a class="nav-link" href="<?php echo BASE_URL; ?>/organizer/organizer_dashboard.php">
                       <?php echo lang('organizer_dashboard'); ?>
                     </a>
                   </li>
@@ -113,10 +147,24 @@ $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
                   </li>
                  <?php endif; ?>
 
-                <!-- Logout -->
-                <li class="nav-item">
-                  <a class="nav-link text-warning fw-semibold" href="<?php echo BASE_URL; ?>/?page=logout">
+                  <!-- Profile (visible for all logged-in users) -->
+                  <li class="nav-item">
+                    <a class="nav-link" href="<?php echo BASE_URL; ?>/?page=profile">
+                      <i class="bi bi-person-circle"></i> <?php echo ($lang == 'ar') ? 'ملفي' : 'My Profile'; ?>
+                    </a>
+                  </li>
+
+                <!-- Logout button (separate item) -->
+                <li class="nav-item" >
+                  <a class="btn btn-outline-light btn-sm" style="color: red;" href="<?php echo BASE_URL; ?>/?page=logout">
                     <i class="bi bi-box-arrow-right"></i> <?php echo lang('logout'); ?>
+                  </a>
+                </li>
+                <!-- Language switch (separate item) -->
+                <li class="nav-item">
+                  <a href="?lang=<?php echo ($_SESSION['lang'] ?? 'en') === 'en' ? 'ar' : 'en'; ?>" 
+                     class="btn btn-outline-light btn-sm lang-toggle">
+                    <?php echo ($_SESSION['lang'] ?? 'en') === 'en' ? 'العربية' : 'English'; ?>
                   </a>
                 </li>
 
@@ -131,20 +179,32 @@ $registration_is_open = ($site_settings['registration_open'] ?? '1') == '1';
                   <a class="nav-link" href="<?php echo BASE_URL; ?>/?page=register"><?php echo lang('register'); ?></a>
                 </li>
                 <?php endif; ?>
-              <?php endif; ?>
-
-              <!-- Language Switch -->
-                <li class="nav-item ms-3">
+                <!-- Language for guests -->
+                <li class="nav-item">
                   <a href="?lang=<?php echo ($_SESSION['lang'] ?? 'en') === 'en' ? 'ar' : 'en'; ?>" 
-                    class="btn btn-outline-light btn-sm">
+                     class="btn btn-outline-light btn-sm lang-toggle">
                     <?php echo ($_SESSION['lang'] ?? 'en') === 'en' ? 'العربية' : 'English'; ?>
                   </a>
                 </li>
+              <?php endif; ?>
+
+              <?php /* Search moved up next to logo */ ?>
 
             </ul>
           </div>
         </div>
       </nav>
+
+      <!-- Removed separate logo bar -->
     </header>
 
 <main>
+
+
+
+
+
+
+
+
+

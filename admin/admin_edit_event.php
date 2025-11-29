@@ -13,10 +13,15 @@ $event_id = intval($_GET['id'] ?? 0);
 global $pdo;
 
 // 1. التحقق من الصلاحية: يجب أن يكون مسؤولاً (role_id = 1)
+ 
 if (!$user || $user['role_id'] != 1 || !$event_id) {
-    $_SESSION['error_message'] = lang('unauthorized_access');
-    header("Location: " . BASE_URL . "/?page=login");
-    exit;
+     $msg = lang('unauthorized_access');
+     echo '<section class="py-5"><div class="container">'
+         . '<div class="alert alert-danger text-center">' . e($msg) . '</div>'
+         . '<div class="text-center"><a class="btn btn-primary" href="' . BASE_URL . '/?page=login">'
+         . (($lang=='ar') ? 'تسجيل الدخول' : 'Go to Login')
+         . '</a></div></div></section>';
+     return;
 }
 
 // 2. جلب الفعالية
@@ -29,45 +34,19 @@ try {
     error_log("DB Error fetching event for admin editing: " . $e->getMessage());
 }
 
+ 
 if (!$event) {
-    $_SESSION['error_message'] = lang('event_not_found');
-    header("Location: " . BASE_URL . "/?page=manage_all_events");
-    exit;
+     $msg = lang('event_not_found');
+     echo '<section class="py-5"><div class="container">'
+         . '<div class="alert alert-warning text-center">' . e($msg) . '</div>'
+         . '<div class="text-center"><a class="btn btn-outline-primary" href="' . BASE_URL . '/?page=manage_all_events">'
+         . (($lang=='ar') ? 'الرجوع لإدارة الفعاليات' : 'Back to Manage Events')
+         . '</a></div></div></section>';
+     return;
 }
 
 // 3. معالجة إرسال النموذج (POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = trim($_POST['title']);
-    $desc = trim($_POST['description']);
-    $date = $_POST['date'];
-    $location = trim($_POST['location']);
-    $status = $_POST['approval_status']; // ✅ حالة الاعتماد
-
-    // التحقق من صلاحية حالة الاعتماد
-    $valid_statuses = ['pending', 'approved', 'rejected'];
-    if (!in_array($status, $valid_statuses)) {
-        $status = $event['approval_status']; // نستخدم القيمة القديمة إذا كانت الحالة غير صالحة
-    }
-
-    if ($title && $desc && $date && $location) {
-        // تحديث البيانات في قاعدة البيانات
-        $updateStmt = $pdo->prepare("
-            UPDATE events 
-            SET title = ?, description = ?, date = ?, location = ?, approval_status = ?
-            WHERE id = ?
-        ");
-        
-        if ($updateStmt->execute([$title, $desc, $date, $location, $status, $event_id])) {
-            $_SESSION['success_message'] = lang('event_updated_success');
-            header("Location: " . BASE_URL . "/?page=manage_all_events");
-            exit;
-        } else {
-            $error = lang('event_update_failed');
-        }
-    } else {
-        $error = lang('all_fields_required');
-    }
-}
+// Note: POST handling moved to early action admin_edit_event_action
 ?>
 
 
@@ -84,7 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="alert alert-danger text-center"><?php echo e($error); ?></div>
                     <?php endif; ?>
 
-                    <form method="POST">
+                    <form method="POST" action="<?php echo BASE_URL; ?>/?page=admin_edit_event_action">
+                        <input type="hidden" name="id" value="<?php echo (int)$event_id; ?>">
                         
                         <div class="mb-3">
                             <label class="form-label"><?php echo lang('event_title'); ?></label>

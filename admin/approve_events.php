@@ -1,6 +1,7 @@
 <?php
 // C:\wamp64\www\Project-1\admin\approve_events.php
 
+
 require_once __DIR__ . '/../config.php'; 
 require_once __DIR__ . '/../functions.php';
 
@@ -13,46 +14,13 @@ if (!$user || $user['role_id'] != 1) {
     $_SESSION['error_message'] = ($lang == 'ar') 
         ? 'غير مصرح لك بالوصول إلى صفحة اعتماد الفعاليات.' 
         : 'You are not authorized to access the event approval page.';
-    header("Location: " . BASE_URL . "/?page=login");
-    exit;
 }
 
-// ----------------------------------------
-// 1. معالجة طلب الموافقة أو الرفض (POST Request)
-// ----------------------------------------
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
-    $event_id = intval($_POST['event_id']);
-    $action = $_POST['action']; // 'approve' or 'reject'
-    
-    // تحديد الحالة الجديدة بناءً على الإجراء
-    $new_status = ($action === 'approve') ? 'approved' : 'rejected';
-    
-    // تحديد رسالة النجاح
-    $success_msg = ($action === 'approve') 
-        ? (($lang == 'ar') ? 'تم اعتماد الفعالية بنجاح.' : 'Event approved successfully.')
-        : (($lang == 'ar') ? 'تم رفض الفعالية بنجاح.' : 'Event rejected successfully.');
-
-    try {
-        // تحديث حالة الفعالية في قاعدة البيانات
-        $stmt = $pdo->prepare("UPDATE events SET approval_status = ? WHERE id = ? AND approval_status = 'pending'");
-        $stmt->execute([$new_status, $event_id]);
-        
-        // التحقق من أن التحديث تم
-        if ($stmt->rowCount() > 0) {
-            $_SESSION['success_message'] = $success_msg;
-        } else {
-            $_SESSION['error_message'] = ($lang == 'ar') ? 'لم يتم تحديث الفعالية. قد تكون قيد المراجعة بالفعل.' : 'Event not updated. It might be already reviewed.';
-        }
-
-    } catch (PDOException $e) {
-        $_SESSION['error_message'] = ($lang == 'ar') 
-            ? 'خطأ في قاعدة البيانات أثناء التحديث: ' . $e->getMessage() 
-            : 'Database error during update: ' . $e->getMessage();
-    }
-    // إعادة توجيه لتنظيف بيانات POST
-    header("Location: " . BASE_URL . "/?page=approve_events");
-    exit;
-}
+/*
+  تمت إزالة منطق الموافقة/الرفض من هذه الصفحة.
+  الآن يتم التعامل مع الطلب في صفحة الإجراء المبكر: admin/admin_approve_event.php
+  وذلك لتجنب تحذير "Cannot modify header information" الناتج عن محاولة header() بعد بدء الإخراج.
+*/
 
 // ----------------------------------------
 // 2. جلب الفعاليات التي تنتظر المراجعة فقط
@@ -60,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 try {
     // جلب الفعاليات التي حالتها 'pending' فقط
     $stmt = $pdo->prepare("
-        SELECT e.*, u.name as organizer_name
+        SELECT e.*, u.name AS organizer_name
         FROM events e
-        LEFT JOIN users u ON e.user_id = u.id
+        LEFT JOIN users u ON e.organizer_id = u.id
         WHERE e.approval_status = 'pending'
         ORDER BY e.created_at ASC
     ");
@@ -122,9 +90,9 @@ try {
                             </a>
                         </td>
                         <td><?php echo e($event['organizer_name'] ?? (($lang == 'ar') ? 'غير معروف' : 'Unknown')); ?></td>
-                        <td><?php echo e($event['date']); ?></td>
+                        <td><?php echo e($event['start_at']); ?></td>
                         <td>
-                            <form method="POST" class="d-inline me-2">
+                            <form method="POST" action="<?php echo BASE_URL; ?>/?page=admin_approve_event" class="d-inline me-2">
                                 <input type="hidden" name="event_id" value="<?php echo $event['id']; ?>">
                                 <button type="submit" name="action" value="approve" 
                                         class="btn btn-sm btn-success" 
@@ -170,7 +138,7 @@ try {
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             <?php echo ($lang == 'ar') ? 'إلغاء' : 'Cancel'; ?>
         </button>
-        <form id="rejectForm" method="POST" class="d-inline">
+        <form id="rejectForm" method="POST" action="<?php echo BASE_URL; ?>/?page=admin_approve_event" class="d-inline">
             <input type="hidden" name="event_id" id="modalEventId">
             <button type="submit" name="action" value="reject" class="btn btn-danger">
                 <?php echo ($lang == 'ar') ? 'نعم، قم بالرفض' : 'Yes, Reject'; ?>

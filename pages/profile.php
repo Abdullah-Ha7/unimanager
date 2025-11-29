@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!-- ✅ ربط ملفات CSS -->
-<link rel="stylesheet" href="assets/css/profile.css">
+<link rel="stylesheet" href="<?php echo BASE_URL; ?>/assets/css/profile.css">
 
 <section class="py-5" >
   <div class="container">
@@ -88,22 +88,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               <div class="mb-3">
                 <label class="form-label"><?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? '(اختياري) كلمة المرور'  : 'Password (optional)'; ?></label>
-                <input type="password" id="password" name="password" class="form-control" required>
-              <!-- ✅ Password Requirement Checklist -->
-                <ul id="password-checklist" class="list-unstyled small mt-2">
-                  <li id="len" class="text-danger"><i class="bi bi-x-circle"></i> 
-                    <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? '٨ أحرف على الأقل' : 'At least 8 characters'; ?>
-                  </li>
-                  <li id="upper" class="text-danger"><i class="bi bi-x-circle"></i> 
-                    <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'حرف كبير واحد على الأقل' : 'One uppercase letter'; ?>
-                  </li>
-                  <li id="lower" class="text-danger"><i class="bi bi-x-circle"></i> 
-                    <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'حرف صغير واحد على الأقل' : 'One lowercase letter'; ?>
-                  </li>
-                  <li id="num" class="text-danger"><i class="bi bi-x-circle"></i> 
-                    <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'رقم واحد على الأقل' : 'One number'; ?>
-                  </li>
-                </ul>
+                <input type="password" id="password" name="password" class="form-control" autocomplete="new-password" placeholder="<?php echo (($_SESSION['lang'] ?? 'en') == 'ar') ? 'اتركه فارغاً للاحتفاظ بكلمتك الحالية' : 'Leave blank to keep current password'; ?>">
+                <small class="text-muted">
+                  <?php echo (($_SESSION['lang'] ?? 'en') == 'ar') ? 'اترك الحقل فارغاً إن لم ترغب بتغييره.' : 'Leave this field empty if you don\'t want to change it.'; ?>
+                </small>
+              <!-- ✅ Password Requirement Checklist (shown only when typing) -->
+              <ul id="password-checklist" class="list-unstyled d-none ps-0 mb-2">
+                <li id="len" class="text-danger"><i class="bi bi-x-circle"></i>
+                  <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? '٨ أحرف على الأقل' : 'At least 8 characters'; ?>
+                </li>
+                <li id="upper" class="text-danger"><i class="bi bi-x-circle"></i>
+                  <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'حرف كبير واحد على الأقل' : 'One uppercase letter'; ?>
+                </li>
+                <li id="lower" class="text-danger"><i class="bi bi-x-circle"></i>
+                  <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'حرف صغير واحد على الأقل' : 'One lowercase letter'; ?>
+                </li>
+                <li id="num" class="text-danger"><i class="bi bi-x-circle"></i>
+                  <?php echo ($_SESSION['lang'] ?? 'en') == 'ar' ? 'رقم واحد على الأقل' : 'One number'; ?>
+                </li>
+              </ul>
               </div>
 
               <div class="mb-3">
@@ -112,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
 
               
-              <button type="submit" class="btn btn-primary w-100">
+              <button type="submit" class="btn btn-profile w-100">
                 <i class="bi bi-save"></i>
                 <?php echo (($_SESSION['lang'] ?? 'en') == 'ar') ? 'تحديث المعلومات' : 'Update Info'; ?>
               </button>
@@ -132,27 +135,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </section>
 <!-- ✅ JavaScript for Live Password Check -->
 <script>
-document.getElementById('password').addEventListener('input', function() {
-  const val = this.value;
+(function(){
+  const pwd = document.getElementById('password');
+  const checklist = document.getElementById('password-checklist');
   const len = document.getElementById('len');
   const upper = document.getElementById('upper');
   const lower = document.getElementById('lower');
   const num = document.getElementById('num');
+  const confirmInput = document.querySelector('input[name="confirm_password"]');
 
-  // Check length
-  if (val.length >= 8) { len.classList.replace('text-danger','text-success'); len.querySelector('i').className = 'bi bi-check-circle'; }
-  else { len.classList.replace('text-success','text-danger'); len.querySelector('i').className = 'bi bi-x-circle'; }
+  function resetChecklist(){
+    [len, upper, lower, num].forEach(el => { el.classList.remove('text-success'); el.classList.add('text-danger'); el.querySelector('i').className = 'bi bi-x-circle'; });
+  }
 
-  // Uppercase
-  if (/[A-Z]/.test(val)) { upper.classList.replace('text-danger','text-success'); upper.querySelector('i').className = 'bi bi-check-circle'; }
-  else { upper.classList.replace('text-success','text-danger'); upper.querySelector('i').className = 'bi bi-x-circle'; }
+  pwd.addEventListener('input', function(){
+    const val = this.value || '';
+    if (val.length === 0){
+      checklist.classList.add('d-none');
+      resetChecklist();
+      if (confirmInput) confirmInput.removeAttribute('required');
+      return;
+    }
+    checklist.classList.remove('d-none');
+    if (confirmInput) confirmInput.setAttribute('required','required');
 
-  // Lowercase
-  if (/[a-z]/.test(val)) { lower.classList.replace('text-danger','text-success'); lower.querySelector('i').className = 'bi bi-check-circle'; }
-  else { lower.classList.replace('text-success','text-danger'); lower.querySelector('i').className = 'bi bi-x-circle'; }
+    // Check length
+    if (val.length >= 8) { len.classList.replace('text-danger','text-success'); len.querySelector('i').className = 'bi bi-check-circle'; }
+    else { len.classList.replace('text-success','text-danger'); len.querySelector('i').className = 'bi bi-x-circle'; }
 
-  // Number
-  if (/\d/.test(val)) { num.classList.replace('text-danger','text-success'); num.querySelector('i').className = 'bi bi-check-circle'; }
-  else { num.classList.replace('text-success','text-danger'); num.querySelector('i').className = 'bi bi-x-circle'; }
-});
+    // Uppercase
+    if (/[A-Z]/.test(val)) { upper.classList.replace('text-danger','text-success'); upper.querySelector('i').className = 'bi bi-check-circle'; }
+    else { upper.classList.replace('text-success','text-danger'); upper.querySelector('i').className = 'bi bi-x-circle'; }
+
+    // Lowercase
+    if (/[a-z]/.test(val)) { lower.classList.replace('text-danger','text-success'); lower.querySelector('i').className = 'bi bi-check-circle'; }
+    else { lower.classList.replace('text-success','text-danger'); lower.querySelector('i').className = 'bi bi-x-circle'; }
+
+    // Number
+    if (/\d/.test(val)) { num.classList.replace('text-danger','text-success'); num.querySelector('i').className = 'bi bi-check-circle'; }
+    else { num.classList.replace('text-success','text-danger'); num.querySelector('i').className = 'bi bi-x-circle'; }
+  });
+})();
 </script>

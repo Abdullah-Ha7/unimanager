@@ -1,0 +1,45 @@
+/* Styles for Edit Event page */
+.edit-event-page {
+  background: #ffffff; /* white background */
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding-top: 2.5rem; /* match py-5 spacing */
+  padding-bottom: 2.5rem;
+}
+
+.edit-event-page .card {
+  background: #fff;
+}
+
+/* Image preview inside edit form */
+.edit-event-page .img-preview {
+  max-height: 200px;
+  width: auto;
+  object-fit: cover;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+@media (max-width: 575.98px) {
+  .edit-event-page { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+  .edit-event-page .img-preview { max-height: 160px; }
+}
+
+
+
+.btn.btn-primary.w-100 {
+  background: linear-gradient(90deg, #017eb3);
+  color: #fff;
+  border: none;
+  transition: 0.2s ease;
+}
+.btn.btn-primary.w-100{
+  background:  #ffffff;
+  color: #017eb3;
+  border: none;
+  transition: 0.2s ease;
+}
+.btn.btn-primary.w-100:hover {
+   background: #afacac ;
+}

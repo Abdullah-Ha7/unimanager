@@ -4,7 +4,6 @@
 // ✅ يجب تعديل مسار تضمين الملفات للخروج من مجلد admin والدخول إلى المجلد الرئيسي
 require_once __DIR__ . '/../config.php'; 
 require_once __DIR__ . '/../functions.php';
-require_once __DIR__ . '/../header.php';
 
 $user = current_user();
 $lang = $_SESSION['lang'] ?? 'en';

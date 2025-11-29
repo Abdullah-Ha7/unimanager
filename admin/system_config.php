@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($error)) {
                     <?php endif; ?>
 
                     <form method="POST">
-                        <h5 class="mb-3 text-primary"><?php echo lang('general_settings'); ?></h5>
+                        <h5 class="mb-3 text-primary text-center"><?php echo lang('general_settings'); ?></h5>
                         <hr>
                         
                         <div class="mb-3">

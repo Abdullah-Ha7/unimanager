@@ -1,0 +1,198 @@
+/* ملفات نمط صفحة تفاصيل الفعالية (event_detail.php) فقط */
+
+/*
+  البطاقة الرئيسية
+  - تحسين المظهر العام لبطاقة تفاصيل الفعالية
+*/
+body { background: #f5f6f7 !important; } /* خلفية الصفحة بلون رمادي فاتح */
+
+.card.rounded-4 {
+  border: 0;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/*
+  ترويسة البطاقة
+  - خلفية متدرجة ونص واضح
+*/
+.card.rounded-4 > .card-header {
+  background: linear-gradient( #017eb3) !important; /* تدرج تركوازي متوافق مع الثيم */
+  color: #fff !important; /* نص أبيض لقراءة أفضل */
+}
+.card.rounded-4 > .card-header h1.h3 { font-weight: 700; }
+.card.rounded-4 > .card-header p.small { opacity: .9; }
+
+/*
+  قائمة تفاصيل الفعالية (التاريخ، الوقت، المكان...)
+  - مسافات بين العناصر ومحاذاة الأيقونات
+*/
+.card-body ul.list-unstyled li { 
+  display: flex; 
+  align-items: center; 
+}
+.card-body ul.list-unstyled li .bi { 
+  font-size: 1.05rem; 
+  margin-inline-end: 8px; 
+}
+
+/*
+  ملخص التقييم
+  - صندوق خفيف مع حواف ناعمة
+*/
+.card-body .bg-light.rounded.shadow-sm {
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* ================================
+   الأزرار داخل صفحة تفاصيل الفعالية
+   - جميع القواعد أدناه تؤثر فقط على هذه الصفحة لأن الملف يُحمَّل لها فقط
+================================ */
+
+/*
+  قاعدة عامة للأزرار: مساحة للأيقونة قبل النص
+*/
+.btn .bi { margin-inline-end: 8px; }
+
+/*
+  أزرار النجاح (أخضر)
+  - تستخدم للزر "احجز الآن" وأيضاً لعرض "أنت حاجز" كزر معطل
+*/
+.btn-success {
+  background: linear-gradient(90deg, #28a745, #198754); /* أخضر واضح */
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 12px rgba(40,167,69,.25);
+  transition: transform .2s ease, filter .2s ease;
+}
+.btn-success:hover { filter: brightness(.95); transform: translateY(-1px); }
+.btn-success:active { filter: brightness(.9); transform: translateY(0); }
+/* عند التعطيل، نحافظ على الوضوح بدون بهتان شديد */
+.btn-success:disabled { opacity: .9; filter: none; transform: none; }
+
+/*
+  زر "قيّم الفعالية" (أصفر)
+  - لون واضح مع نص داكن لتباين أعلى
+*/
+.btn-warning {
+  background: linear-gradient(90deg, #ffcd39, #ffc107);
+  color: #1f2a30;
+  border: none;
+}
+
+/*
+  زر "تم التقييم مسبقاً" (تعطيل)
+  - إبقاء مظهره خفيفاً مع مؤشر تعطيل
+*/
+.btn-outline-success[disabled],
+.btn-outline-success:disabled {
+  color: #5cb85c !important;
+  border-color: #5cb85c !important;
+  opacity: .65;
+}
+
+/*
+  زر "إلغاء الحجز" (إطار أحمر)
+  - إبراز اللون الأحمر عند التحويم
+*/
+
+.btn-outline-danger { color: rgb(0, 0, 0);border-width: 2px; background: rgb(203, 74, 74); }
+.btn-outline-danger:hover { color: rgb(0, 0, 0); background: rgb(220, 53, 70); }
+
+/*
+  الأزرار المعطلة العامة (منتهية/مكتملة/ممتلئة)
+*/
+.btn:disabled, .btn[disabled] { cursor: not-allowed; opacity: .7; }
+
+/*
+  زر الرد على التقييم (صغير + حبة)
+*/
+.btn-sm.btn-outline-secondary.rounded-pill {
+  border-width: 2px;
+}
+.btn-sm.btn-outline-secondary.rounded-pill:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+/*
+  زر إرسال الرد (أخضر صغير ممتد)
+*/
+.btn-sm.btn-success.w-100 {
+  background: linear-gradient(90deg, #28a745, #198754);
+  border: none;
+}
+
+/*
+  زر العودة إلى الفعاليات (رمادي)
+*/
+.btn.btn-secondary {
+  background: linear-gradient(90deg, #6c757d, #5c636a);
+  color: #fff;
+  border: none;
+}
+
+/*
+  عناوين الأقسام داخل تفاصيل الفعالية
+  - تغيير لون "Description" و"Details" ليتناسق مع الثيم التركوازي
+  - نستخدم !important لتجاوز .text-success القادمة من Bootstrap
+*/
+.card-body h2.h4.text-success {
+  color: #0aa2c0 !important; /* تركوازي أساسي للثيم */
+}
+
+/*
+  أزرار المودال (التحذير من الإلغاء)
+*/
+.modal-footer .btn-primary { background: linear-gradient(90deg, #0aa2c0, #017eb3); border: none; }
+.modal-footer .btn-secondary { background: #6c757d; border: none; }
+
+/*
+  تنسيق منطقة أزرار الإجراءات (يسار/يمين)
+  - توحيد أحجام الأزرار وجعل "قيّم الفعالية" و"إلغاء الحجز" فوق بعض
+*/
+.event-actions .btn {
+  min-width: 230px;               /* توحيد العرض الأدنى لكل زر */
+  padding: 0.65rem 1.1rem;        /* ارتفاع متناسق */
+  border-radius: 12px;            /* نفس الاستدارة للجميع */
+}
+.event-primary-action { min-width: 230px; }
+.event-secondary-actions { min-width: 230px; margin-inline-start: auto; }
+
+/* على الشاشات الصغيرة تصبح كلها تحت بعض تلقائياً */
+@media (max-width: 575.98px) {
+  .event-actions { flex-direction: column; align-items: stretch; }
+  .event-secondary-actions { margin-inline-start: 0; }
+}
+
+
+/* ================================
+   صورة الفعالية الرئيسية
+   - مستطيل كبير مع ملاءمة القص لملء العرض
+================================ */
+.event-image img {
+  width: 100%;
+  height: 420px;            /* حجم أكبر بشكل افتراضي */
+  object-fit: cover;        /* قص ذكي لملء الإطار */
+  border-radius: 14px;      /* نفس استدارة البطاقات */
+  display: block;
+}
+
+/* استجابة الأحجام حسب العرض */
+@media (max-width: 991.98px) {
+  .event-image img { height: 320px; }
+}
+@media (max-width: 575.98px) {
+  .event-image img { height: 220px; }
+}
+
+
+.card-header.bg-success.text-white.text-center.rounded-top-4.py-4 {
+  background:  #65a3d6 !important;
+  color: #ffffff !important;
+  border: none;
+  transition: 0.2s ease;
+}
+
+
+
+
+
